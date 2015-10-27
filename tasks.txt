@@ -1,0 +1,284 @@
+NES
+
+Fails on CPU blargg test 5 unofficial opcodes SXA
+TODO: Sprite DMA needs to react on instruction complete, not the instant the register is written to
+
+
+SNES
+
+The M and X flags are always equal
+to one in the Emulation mode. When an interrupt occurs during the Emulation
+mode, the Break flag is written to stack memory as bit 4 of the Processor
+Status Register.
+
+During the Emulation mode, the Stack Pointer high-order byte
+(SH) is always equal to 01. The Bank Address is 00 for all Stack operations.
+
+Does emulation mode cause 8 bit wrap around on zero page addressing?
+
+TSC: While in 6502 emulation mode a one will be transferred to the hidden B (upper 8 bits) accumulator because the stack is always located at page one in 6502 mode.
+Dont understand??
+
+TCS: Should the top 8 bits of the stack pointer be cleared in this instance?
+
+Check mapping behaviour of AMS_ABSOLUTE_INDIRECT_DIRECT
+
+need to decrement program bank register if going below zero when jumping?
+set data bank register with MVN/MVP?
+
+
+Should BRL / other branch commands cross program bank boundaries? Apparently old branch commands behave the same as 6502
+
+
+ When switching from 8 to 16 or 16 to 8 bit index register, the high byte of either X or Y will be come zero.
+Needs doing - uses same status register in emu - While in emulation mode (E=1) bit 4 is the B BRK flag bit. [While in emulation mode, bit 5 is not present.]
+[The stack pointer is returned to eights bits with the high byte forced to one and the high byte is lost.]
+
+	
+ 1A      INC     Accumulator (INA)              1       2 |
+	62      PER     Stack (PC Relative Long) 
+	D4      PEI     Stack (Direct Page Indirect)   2       6 | 2
+
+	 check JMP/JSR addressing
+	 
+
+Have zero clock cycles:
+WDM
+MVP
+MVN
+
+Dynamic clock cycles need doing
+
+signature byte for brk / cop
+confustion over ADC how it behaves in 8bit acc mode
+BIT does not store overflow / carry flags in immediate addressing
+COP native mode decimal flag should be cleared after execution
+JML - subtract program counter (already been incremented before call?)
+
+got as far as jumps / LDA
+
+
+
+=====================================================
+
+Tests failing:
+
+cli_latency_tests #3
+APU should generate IRQ when $4017 = $00
+
+Fails all mmc3_irq_tests tests
+
+Fails nes_vbl_nmi_tests #07 : 55259094
+
+Fails nes-stress PPU test 2: sprites on all
+
+Fails all pal-apu tests
+
+'Paltest' has jittery lines when i guess its not supposed to
+
+'scanline' test passes first 2 tests but cant read third line - confirm on other emu to test
+
+'stretch.nes' has jittery lines, confirm behaviour
+
+
+Current testing:
+
+Got to usa\Batman Returns (U)
+
+/////////////////////////////////////////
+
+- monitor writes to CHR rom pages and only save the ones that have changed to disk on state save
+
+done: initial state implementation
+done: input broken on nestress
+done: scrolling
+DONE: account for CPU cycles taken for sprite DMA (1 for read, 1 for write = 512 cycles)
+DONE: Fix big sprite issue in "burger time"
+DONE: sprite issue in "lunar pool"
+DONE: foreground->RunTo() method
+DONE: optimise ^^
+DONE: fix sprite issue not being aligned with background in ms. pacman & burgertime: suspect scrolling issue
+DONE: use tile id from vramaddress for background render
+done: implement sprite & background clipping
+done: sprite hit detection - use pre-render buffer
+done: APU support
+DONE: fix palette colours - balloon fight logo should be orange not blue
+DONE: savestate support
+FIXED: ppu frame tests fail after loading a few roms - state not properly being reset - possible not reseting cpu ticks on reset?
+FIXED - need way of setting priority buffer for sprites - sprite zero not being correctly identified
+DONE - remove subcycle and affect parameters from memory reads
+DONE - remove boost shared_ptrs from mainboard components and make the global pointers instead
+DONE - replace if() tests with asserts for pointer testing
+DONE - use IS_INT_BETWEEN in cpumemory.cpp
+done - replace internalports in ppu with bitfield
+DONE - replace CPU status reg with bitfield
+done - remove mutable ppu data members
+DONE - make palette part of PPU
+DONE - mappers need to set state on reset
+DONE - wxLog, wxLogTextCtrl & wxLogWindow - use for logging?
+FIXED - japan\gyrodine (helicopter changes colour)
+FIXED - usa\donkey kong (marios face changes colour on second level)
+FIXED - allowing more than 8 sprites on a scanline fixes this - mapper1\usa\abadox - sprites flicker when many on a line
+FIXED - mapper1\usa\chessmaster
+FIXED - mapper1\usa\clash at demonhead
+FIXED - mapper1\usa\desert commander - resets on start game
+FIXED + mapper1\usa\Clash At Demonhead (U).nes - supposed to be black background on text in intro screen? - yes
+FIXED - individual mappers need to save state (reboot on die hard (U) after reloading save state - patterns messed up - see 65EEC6E7_1.savestate on desktop)
+FIXED - Ironsword - Wizards & Warriors 2 (U).nes - shaky status bar (mapper #2, must be spritezero hit detection problem)
+DONE - save all options on options dialog close (also set current options on load)
+DONE - use Reset event on mainboard, hook all components on that, stop recreating all components on reset & reload
+DONE - look into zapper code
+DONE: fix status register errors in nesstress CPU tests
+DONE - move all joystick stuff from cpumemory into proper class
+DONE: properly clear memory on cold reboot
+
+/////////////// debug ideas
+
+- sprite & bg tile numbering
+- separate opengl context so can render nametables & palette on tother window
+
+
+high: monochrome + emphasis support
+high: mega man 3 issues: http://nesdev.parodius.com/bbs/viewtopic.php?t=212 <- 513 cycles for DMA??
+high: sort out dont allow writes to PRG & CHR ROM
+high: sound IRQ & CLI latency implementation
+- tidy up sprite DMA transfer & optimise
+
+low pri: iNES trainer support: http://nesdev.parodius.com/bbs/viewtopic.php?t=1804
+
+high: add own assert() method to be turned on / off via #define
+high: assert on renderbuffer->prioritybuffer and any memory pages
+
+multidirectional scrolling test - fix flickering issue on bottom bar
+
+mapper4\usa\Dirty Harry (U) - looks like it resets / incorrect PRG swap when attempting to pass intro part. works on nintendulator
+
+mapper4\usa\Baseball Stars 2 (U) - interlaced background, either tile pre-fetch error or mmc3 timing
+mapper4\usa\Base Wars (U) - lines on intro text - probable mmc3 timing issue
+mapper4\usa\gauntlet.nes - strange error, when playing first level all walls are in wrong place, works on nintendulator
+mapper4\usa\Gun Nac (U) - messed up chr table on intro
+mapper4\usa\Kid Klown (U) - same again, messed up chr tables
+mapper1\usa\Treasure Master (U).nes - breaks when trying to pick up the boots on the upper platform, first level (probable prg switch error)
+mapper4\usa\Incredible Crash Dummies, The (U) - shaking scrolling bar
+
+mapper69\usa\Batman - Return of the Joker (U) - black intro screen, no music plays, but press start and it goes ok
+
+FIXED - mapper1\usa\day dreamin davey - scrolling issue, shaking
+FIXED - mapper1\usa\bases loaded 2 - scrolling issue (again)
+FIXED - mapper1\usa\cool world - scanline mess on status bar at bottom during play
+FIXED - mapper1\usa\Treasure Master (U).nes - shaky status bar, and breaks when trying to pick up the boots on the upper platform, first level (probable prg switch error)
+
+mapper1\usa\Mutant Virus, The (U) - suspected incorrect prg switch when starting a new game
+
+mapper2\usa\3-D Battles of World Runner, The (U) - slalom-style line artifacts on scrolling, probably due to incorrect tile fetch timing
+
+mapper3\usa\Adventures of Dino Riki (U) - black screen at start when intro supposed to display. music plays, works on nemulator
+	- mapper is so simple, suspected not a mapper issue
+
+FIXED - mapper1\usa\talespin - introduction, mother head sprite problem
+
+mapper1\usa\indiana jones last crusade (taito) - black lines on introduction screen
+mapper1\usa\heavy shreddin - shaking: fixed, but still seems to have a glitch in top-right - happens in Nintendulator
+mapper1\usa\hudson hawk - sprites screwed on play
+
+mapper4\usa\Flintstones 2 - The Surprise at Dinosaur Peak!, The (U).nes - Status bar shaking - possible mmc3 scanline counter or sprite0 hit
+mapper4\usa\Bram Stoker's Dracula (U).nes - status bar shaking
+mapper4\usa\Code Name Viper (U).nes - status bar shaking (uses mapper4 irq)
+
+FIXED - usa\Arkanoid (U).nes - doesnt respond to input ( needs arkanoid controller?)
+
+mapper4\usa\Gun Nac (U).nes - title screen messed up
+mapper4\usa\Werewolf - The Last Warrior (U).nes - black screen on play, but music keeps playing - chr rom problem?
+
+usa\Rampart (U).nes - black screen
+usa\George Foreman's KO Boxing (U).nes - black screen
+
+mapper1\usa\Knight Rider (U).nes - black distortion on right side of track, looks like tile prefetching timing problem. note other artifacts such as garbage line
+	on intro and on horizon are present is FCEXP and nintendulator
+
+usa\super cars - mirroring messed up? This rom uses illegal opcode LAX, crashes on nintendualator and nemulator.
+
+# mapper #66
+
+- japan\Booby Kids (J).nes - black screen
+- japan\Chester Field - Ankoku Shin heno Chousen (J).nes - black screen
+- usa\Black Bass USA, The (U).nes - black screen mapper #66
+
+
+usa\Athletic World (U).nes - freezes on play
+mapper1\usa\Back to the Future 2 & 3 (U).nes - black sprites - possible chr rom bad swap or transparent pixel bug
+mapper0\japan\door door - freeze when start and collides with other character - probable sprite0 hit problem
+
+mapper1\usa\sesame street 123 - pattern tables messed
+mapper4\usa\Astyanax (U).nes - messed up CHR tables
+mapper4\usa\Super Mario Bros 3 (U) (PRG 0).nes - messed up status bar at bottom during play - possible sprite0 / mapper4 issue?
+mapper4\usa\alien 3.nes - black screen when starting game
+mapper4\usa\Baseball Stars 2 (U).nes - messed up pattern tables on bottom on load
+FIXED - mapper4\usa\Conquest of the Crystal Palace (U).nes - no status panel on bottom of screen - most likely mapper timing issue
+
+mapper2\world\Fantastic Adventures of Dizzy, The (Aladdin) (UE).nes - shakes occassionaly on status bar - possible sprite0 issue? - doesn't happen in nintendulator
+
+/// mapper7 problems - probable timing issues - all of these occur in nintendulator
+
+mapper7\usa\Caesar's Palace (U).nes - floor messed up. dont know whats going on - possible to do with apu irq
+mapper7\usa\classic concentration - messed up background on contestants when they match a prize
+FIXED - mapper7\usa\WWF Wrestlemania (U).nes - messed up ring
+mapper7\usa\Time Lord (U).nes - shakes when loads of sprite on screen - suspected sprite zero being affected by sprite priority handling code. 
+
+FIXED - bug: save states on joysticks - need to specify which ones are plugged in at the time of saving
+
+--------
+
+INCORRECT MAPPERS ( happens on nintendulator too )
+
+mapper7\usa\Castle of Deceit (U).nes - black screen - mapper 11, but background broken - maybe another mapper??
+LEAVE - fcexd cant do this either - mapper7\usa\death bots - black screen on start play 
+
+--------
+
+mapper1\usa\Thunderbirds (U) - blue line over narrators head in briefing, doesnt happen on nintendulator
+
+FIXED - usa\Alien Syndrome (U).nes - blank screen when attempt to start new game
++ new problem - sprites seem messed when starting a new game, suspected pattern table problem
++ nothing else works when fix applied (divide 2k bank ids by 2 - breaks everything else. Problem happens in nintendulator, leave)
+
+FIXED - europe\battletoads - PAL shaking on play, intro ok
+FIXED - mapper0\usa\mario - sprite hit zero freeze when jumping off high block into clouds on level 1-1
+FIXED - mapper0\usa\slalom - tile corruption on right side during play
+usa\Al Unser Jr Turbo Racing (U) [a1].nes - same problem as knight rider
+usa\treasure master - jumping off top off screen causes black screen & mess at bottom of status bar
+
+usa\Adventures of Dino Riki (U).nes - black screen
+usa\Teenage Mutant Ninja Turtles 2 (U).nes - black screen
+mapper1\usa\dragon warrior 3 & 4 - blank screen
+mapper1\usa\ghengis khan - mmc1 - black screen - uses VRAM
+mapper1\usa\bill and ted - black screen
+
+mapper0\japan\f1 race - sides of track not supposed to be red, same with mapper0\japan\exerion - bottom supposed to be green, not red
+
+mapper4\usa\Power Punch 2 (U).nes - messed up sprite on intro, doesnt accept keys
+
+- look into apu code and fix frame limiter
+
+sprite missing in mapper0\japan\b-wings - gun middle missing on weapon selection, also middle of ship missing
+
+Test mapper #8
+[ Several hacked Japanese titles use this mapper, such as the hacked version of Doraemon. ]
+
++ mapper #11
+[ This mapper is used on several unlicensed Color Dreams titles, including Crystal Mines and Pesterminator.
+	I'm not sure if their religious ("Wisdom Tree") games use the same mapper or not. ]
++ mapper #13 (videomation)
+DONE, DONE + mapper #15 (no support for 8k prg switching - TODO, incomplete)
++ mapper #17 [ Several hacked Japanese titles use this mapper, such as the hacked versions of Parodius and DragonBall Z 3. ]
+ + mapper #66, 78, 69 (IRQs!)
+ + mapper #6, implement IRQ overflow thingy majig for FFE games ( http://nocash.emubase.de/everynes.htm )
+ 
+DONE - add support for 1k + 2k VROM switching, and 8k prg
+- dont allow writes to VROM
+DONE - dont automatically setup VRAM in default mapper
+
+- add option to set power-up state (currently cpuram all set to zero)
+
+
+wxZipInputStream - read from zip files

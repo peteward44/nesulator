@@ -1,0 +1,357 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="APU">
+      <UniqueIdentifier>{3f486404-d5e7-4487-b45a-1b583c479a3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="APU\nes_apu">
+      <UniqueIdentifier>{bfc7d003-8b0c-4545-ac97-fc9f0d218df5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{e7c0bd61-5867-4473-aeae-ab289f9987a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TinyXml">
+      <UniqueIdentifier>{669470e4-881f-433f-81ad-eac9cf8a018f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ntsc">
+      <UniqueIdentifier>{2f728dfe-3467-4f8d-8d53-902b03d4b48c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="snes">
+      <UniqueIdentifier>{3ab6040e-8984-423f-8f6c-55c327acfb01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="nes">
+      <UniqueIdentifier>{358a1ee7-72d4-48e6-beff-c1a8b4676155}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="shared">
+      <UniqueIdentifier>{fa88518d-b952-44e3-a6ac-a7826c4d63fa}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\APU\Simple_Apu.cpp">
+      <Filter>APU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\APU\Sound_Queue.cpp">
+      <Filter>APU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\APU\Wave_Writer.cpp">
+      <Filter>APU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\APU\nes_apu\apu_snapshot.cpp">
+      <Filter>APU\nes_apu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\APU\nes_apu\Blip_Buffer.cpp">
+      <Filter>APU\nes_apu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\APU\nes_apu\Multi_Buffer.cpp">
+      <Filter>APU\nes_apu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\APU\nes_apu\Nes_Apu.cpp">
+      <Filter>APU\nes_apu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\APU\nes_apu\Nes_Namco.cpp">
+      <Filter>APU\nes_apu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\APU\nes_apu\Nes_Oscs.cpp">
+      <Filter>APU\nes_apu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\APU\nes_apu\Nes_Vrc6.cpp">
+      <Filter>APU\nes_apu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\APU\nes_apu\Nonlinear_Buffer.cpp">
+      <Filter>APU\nes_apu</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\app.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\glcanvas.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\mainframe.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\gui\optionsdialog.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\tinyxml\tinystr.cpp">
+      <Filter>TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\tinyxml\tinyxml.cpp">
+      <Filter>TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\tinyxml\tinyxmlerror.cpp">
+      <Filter>TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\tinyxml\tinyxmlparser.cpp">
+      <Filter>TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\processor65C816.cpp">
+      <Filter>snes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\SnesCartridge.cpp">
+      <Filter>snes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\SnesCpuMemory.cpp">
+      <Filter>snes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\SnesMainboard.cpp">
+      <Filter>snes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\SnesPpu.cpp">
+      <Filter>snes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\SnesSynchroniser.cpp">
+      <Filter>snes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\apu_dx.cpp">
+      <Filter>nes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\apu_sdl.cpp">
+      <Filter>nes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cartridge.cpp">
+      <Filter>nes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\cpumemory.cpp">
+      <Filter>nes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\decompiler.cpp">
+      <Filter>nes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\mainboard.cpp">
+      <Filter>nes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\mappers.cpp">
+      <Filter>nes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\options.cpp">
+      <Filter>nes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ppu.cpp">
+      <Filter>nes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ppu_render.cpp">
+      <Filter>nes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\processor6502.cpp">
+      <Filter>nes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\renderbuffer.cpp">
+      <Filter>nes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\synchroniser.cpp">
+      <Filter>nes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\crc32.cpp">
+      <Filter>shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\input.cpp">
+      <Filter>shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\log.cpp">
+      <Filter>shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\stdafx.cpp">
+      <Filter>shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ntsc\nes_ntsc.cpp">
+      <Filter>ntsc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\SnesPpuRender.cpp">
+      <Filter>snes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\opcodes6502.cpp">
+      <Filter>nes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\mapper4.cpp">
+      <Filter>nes</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\APU\Simple_Apu.h">
+      <Filter>APU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\APU\Sound_Queue.h">
+      <Filter>APU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\APU\Wave_Writer.hpp">
+      <Filter>APU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\APU\nes_apu\apu_snapshot.h">
+      <Filter>APU\nes_apu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\APU\nes_apu\blargg_common.h">
+      <Filter>APU\nes_apu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\APU\nes_apu\blargg_source.h">
+      <Filter>APU\nes_apu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\APU\nes_apu\Blip_Buffer.h">
+      <Filter>APU\nes_apu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\APU\nes_apu\Blip_Synth.h">
+      <Filter>APU\nes_apu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\APU\nes_apu\Multi_Buffer.h">
+      <Filter>APU\nes_apu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\APU\nes_apu\Nes_Apu.h">
+      <Filter>APU\nes_apu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\APU\nes_apu\Nes_Namco.h">
+      <Filter>APU\nes_apu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\APU\nes_apu\Nes_Oscs.h">
+      <Filter>APU\nes_apu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\APU\nes_apu\Nes_Vrc6.h">
+      <Filter>APU\nes_apu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\APU\nes_apu\Nonlinear_Buffer.h">
+      <Filter>APU\nes_apu</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\app.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\glcanvas.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\gui.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\gui_shared.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\mainframe.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\gui\optionsdialog.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\tinyxml\tinystr.h">
+      <Filter>TinyXml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\tinyxml\tinyxml.h">
+      <Filter>TinyXml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ntsc\demo_impl.h">
+      <Filter>ntsc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ntsc\nes_ntsc.h">
+      <Filter>ntsc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ntsc\nes_ntsc_config.h">
+      <Filter>ntsc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ntsc\nes_ntsc_impl.h">
+      <Filter>ntsc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\opcodes65C816.h">
+      <Filter>snes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\processor65C816.h">
+      <Filter>snes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\SnesCartridge.h">
+      <Filter>snes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\SnesCpuMemory.h">
+      <Filter>snes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\SnesMainboard.h">
+      <Filter>snes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\SnesPpu.h">
+      <Filter>snes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\SnesSynchroniser.h">
+      <Filter>snes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\apu.h">
+      <Filter>nes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\apu_dx.h">
+      <Filter>nes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\apu_sdl.h">
+      <Filter>nes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\cartridge.h">
+      <Filter>nes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\cpumemory.h">
+      <Filter>nes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\decompiler.h">
+      <Filter>nes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\mainboard.h">
+      <Filter>nes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\mappers.h">
+      <Filter>nes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\modeconstants.h">
+      <Filter>nes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\opcodes6502.h">
+      <Filter>nes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\options.h">
+      <Filter>nes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ppu.h">
+      <Filter>nes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\processor6502.h">
+      <Filter>nes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\renderbuffer.h">
+      <Filter>nes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\synchroniser.h">
+      <Filter>nes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\icartridge.h">
+      <Filter>shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\iinputbus.h">
+      <Filter>shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\imainboard.h">
+      <Filter>shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\input.h">
+      <Filter>shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\irenderbuffer.h">
+      <Filter>shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\log.h">
+      <Filter>shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\main.h">
+      <Filter>shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\MainboardCallback.h">
+      <Filter>shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\stdafx.h">
+      <Filter>shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\multisizeint.h">
+      <Filter>shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\mapper4.h">
+      <Filter>nes</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\src\processor65C816.inl">
+      <Filter>snes</Filter>
+    </None>
+    <None Include="..\..\src\processor6502.inl">
+      <Filter>nes</Filter>
+    </None>
+    <None Include="..\..\tasks.txt" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,84 @@
+There are 341 PPU ticks in one scanline. The first 256 ticks correspond directly to the 256 rendered pixels; the remaining 85 ticks correspond to HBLANK.
+
+
+
+There are 262 scanlines in an NTSC frame (first 20 are vblank, then the 'pre-render' scanline, then 240 rendered scanlines, then 1 dummy scanline). Each scanline has 341 PPU cycles except for the pre-render scanline which alternates between 341 and 340 cycles
+
+PAL has 70 scanlines of VBlank instead of 20, and the pre-render scanline is always 341 cycles (it does not alternate like it does on NTSC)
+
+
+----------------
+
+Only differences between NTSC and PAL systems that I'm aware of are:
+
+1) 70 scanlines of VBlank instead of 20 (making 312 scanlines in a frame instead of 262)
+
+2) The pre-render scanline is ALWAYS 341 ppu cycles on PAL instead of alternating between 341 and 340 like it does on NTSC
+
+3) 1 CPU cycles to every 3.2 PPU cycle on PAL... instead of 1 CPU cycles to 3 PPU cycle like on NTSC (this effectively makes a scanline 106.5625 CPU cycles long instead of 113.6666667)
+
+4) PAL CPU clock rate is 1.65 MHz (1662607Hz I believe)... slightly slower than NTSC's 1.79 MHz. This lowers the pitch of sound played on PAL systems.
+
+5) Adjusted DMC frequency lookup table to adjust for the pitch difference.
+
+6) The top and bottom 8 scanlines on PAL displays aren't clipped like they usually are on NTSC displays (all 240 rendered scanlines are visible)
+
+7) ~50.0 FPS on PAL instead of ~60.1 FPS like on NTSC
+
+
+------------
+
+PAL:
+
+1: ppu cycles per frame: 531960 / 5 == 106392
+2: ppu cycles per line: 1705 / 5 == 341
+3: lines per frame: 106392 / 341 == 312
+4: VBlank cycles: 119350 / 5 == 23870 --> 23870 / 341 == 70 lines
+
+----
+
+
+How is data entered into the 5-bit array?
+
+Like this:
+
+1st Write == 1
+
+00001 <-- LSB
+
+or:
+
+1st Write == 1
+
+--> MSB 10000
+
+Also is the LSB of the data written the actual value that goes into the array? Or is it if the data is equal to anything other than 0?
+
+---
+
+The first way. Least significant bit first. And only bits that matter are bit 0 (written to reg) and bit 7 (reset). The other bits should not be used at all.
+
+
+Remember that all 5 writes must be completed before the 5-bit value actually gets moved to a register... and that only the address written to on the last (5th) write matters. Therefore:
+
+Code:
+
+LDA #$00
+STA $8000
+STA $8000
+STA $8000
+STA $8000
+STA $E000
+
+
+That's a perfectly valid way to write to the 4th MMC1 register ($E000). The contents of the first MMC1 reg ($8000) remain unchanged.
+
+
+---------------------------------
+
+If an interrupt (IRQ or NMI) occurs during the last cycle of an instruction, the CPU will execute one more instruction, then process the interrupt. If an interrupt occurs during any other cycle of an instruction (from the first cycle through the second-to-last), the CPU will finish executing that instruction, then process the interrupt.
+
+LDA #1
+LDA #2
+
+If an interrupt occurs during the first cycle of LDA #1, the accumulator will contain a 1 when the interrupt code begins executing, and the PC on the stack will point to the start of LDA #2. If, however, an interrupt occurs during the second cycle of LDA #1 (this instruction is 2 cycles long), the accumulator will contain a 2 when the interrupt code begins execution, and the PC on the stack will point to the first instruction after LDA #2. You can think of it as a 1-cycle latency (where one cycle passes after an interrupt occurs before the CPU sees it).

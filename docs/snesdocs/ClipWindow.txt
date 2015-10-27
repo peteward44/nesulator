@@ -1,0 +1,252 @@
+=============================================================================
+   Sub-screen addition/subtraction and the Mask Windows on the SNES v1.0
+=============================================================================
+	(C) 2001 Realtime Simulations and Roleplaying Games
+	By Grog
+
+=============================================================================
+   Ye old purpose and disclaimers
+=============================================================================
+	The Window Mask and Color Addition/Subtraction registers are pretty 
+poorly documented, so here's what I've figured out through trial and error.  
+Note that my trial and error was in an emulated SNES environment, so if ZSNES 
+has it wrong then I probably do too.  Also, I've probably not found all of 
+the special cases and features, so don't consider this the authoritative 
+guide.
+
+=============================================================================
+      Mask Windows:
+=============================================================================
+
+	Each Background layer in the SNES can be clipped using the Window 
+Mask registers.  The SNES has two of these mask windows, and the left and 
+right sides of each mask window can be controlled independently.  The top and 
+bottom edges cannot be set at all (see section on IRQ tricks for a 
+work-around).  When a mask is enabled, the contents of the background covered 
+by the mask is not drawn.  Each mask window can be enabled for each 
+background individually, ie BG1 could have windows 1 and 2 enabled while BG2 
+has window 1 only and BG3 has no windows enabled.  The window's right and 
+left edges are in absolute screen X coordinates, in other words the scroll 
+settings of the backgrounds do not affect the mask region.
+	The two mask windows can be combined to form a "supermask".  The 
+areas of the windows can be ORed, ANDed, XORed, or XNORed together.  For 
+example, if Window 1 and 2 are XORed together, any area where the windows 
+overlap will be "unmasked" while areas with no overlap are masked.  XNOR is 
+even stranger, since overlapping areas and areas that neither window cover 
+are masked while areas covered by a single window are unmasked.  It is left 
+as an exercise to the reader to find a use for these modes.  There is an 
+additional bit that swaps the covered area of a window; ie instead of the 
+window's area being masked, the window's area is unmasked while uncovered 
+area is masked.  Confused?  How about some cute ASCII images to illustrate 
+the modes (+ is unmasked space, # is masked space, assume a 10x4 pixel 
+screen for the examples) :
+
+Window Mask 1: On, non-inverted, Left=2 Right=4     Window Mask 2: Off
+OR mode
+0123456789ABCDEF
+++###+++++++++++
+++###+++++++++++
+++###+++++++++++
+++###+++++++++++
+
+Window Mask 1: On, inverted, Left=2 Right=4         Window Mask 2: Off
+OR mode
+##+++###########
+##+++###########
+##+++###########
+##+++###########
+
+Window Mask 1: On, non-inverted, left=2 Right=4     Window Mask 2: On, non-inverted, Left=8 Right=12
+OR mode
+++###+++#####+++
+++###+++#####+++
+++###+++#####+++
+++###+++#####+++
+
+Window Mask 1: On, non-inverted, left=2, Right=9    Window Mask 2: On, non-inverted, Left=7 Right=12
+OR mode
+++###########+++
+++###########+++
+++###########+++
+++###########+++
+
+Window Mask 1: On, non-inverted, left=2, Right=9    Window Mask 2: On, non-inverted, Left=7 Right=12
+AND mode
++++++++###++++++
++++++++###++++++
++++++++###++++++
++++++++###++++++
+
+Window Mask 1: On, non-inverted, left=2, Right=9    Window Mask 2: On, non-inverted, Left=7 Right=12
+XOR mode
+++#####+++###+++
+++#####+++###+++
+++#####+++###+++
+++#####+++###+++
+
+Window Mask 1: On, Inverted, left=2 Right=12        Window Mask 2: On, non-inverted, Left=9 Right=10
+OR mode
+0123456789ABCDEF
+##+++++++##+####
+##+++++++##+####
+##+++++++##+####
+##+++++++##+####
+
+
+Get the idea?  Good.  The mask OR/AND/XOR/XNOR mode is set independently for 
+each background layer, so BG1 could be XOR while BG2 is OR, etc.  This is a 
+good place to note that the OBJ layer and the fixed color add/subtract value 
+can also be masked with win1 and win2.  The fixed color value is explained in 
+the section on Fixed Color Addition/Subtraction later in this document.
+
+The registers controlling the mask windows are pretty simple once you've figured out the above diagrams:
+
+$2126 w1            Window 1 Left  [WH0]  -- Obviously, Window 1's left X coordinate
+$2127 w1            Window 1 Right [WH1]  -- Obviously, Window 1's right X coordinate
+$2128 w1            Window 2 Left  [WH2]  -- Obviously, Window 2's left X coordinate
+$2129 w1            Window 2 Right [WH3]  -- Obviously, Window 2's right X coordinate
+
+$2123 w1 ABCDEFGH   Window mask settings for BG1 and BG2  [W12SEL]
+                        A=Enable Window 2 on BG2
+                        C=Enable Window 1 on BG2
+                        E=Enable Window 2 on BG1
+                        G=Enable Window 1 on BG1
+                        B=Invert Window 2 on BG2
+                        D=Invert Window 1 on BG2
+                        F=Invert Window 2 on BG1
+                        H=Invert Window 1 on BG1
+
+$2124 w1 ABCDEFGH   Window mask settings for BG3 and BG4  [W34SEL]
+                        A=Enable Window 2 on BG4
+                        C=Enable Window 1 on BG4
+                        E=Enable Window 2 on BG3
+                        G=Enable Window 1 on BG3
+                        B=Invert Window 2 on BG4
+                        D=Invert Window 1 on BG4
+                        F=Invert Window 2 on BG3
+                        H=Invert Window 1 on BG3
+
+$2125 w1 ABCDEFGH   Window mask settings for OBJ layer and Fixed Color +/- [WOBJSEL]
+                        A=Enable Window 2 on Color
+                        C=Enable Window 1 on Color
+                        E=Enable Window 2 on OBJ
+                        G=Enable Window 1 on OBJ
+                        B=Invert Window 2 on Color
+                        D=Invert Window 1 on Color
+                        F=Invert Window 2 on OBJ
+                        H=Invert Window 1 on OBJ
+
+$212A w1 AABBCCDD   Mask Combination Logic for BG1 to BG4 [WBGLOG]
+                        A=BG4  (00=OR 01=AND 10=XOR 11=XNOR)
+                        B=BG3  (00=OR 01=AND 10=XOR 11=XNOR)
+                        C=BG2  (00=OR 01=AND 10=XOR 11=XNOR)
+                        D=BG1  (00=OR 01=AND 10=XOR 11=XNOR)
+
+$212B w1 0000AABB   Mask Combination Logic for OBJ and Fixed Color +/- [WOBJLOG]
+                        A=Color  (00=OR 01=AND 10=XOR 11=XNOR)
+                        B=OBJ    (00=OR 01=AND 10=XOR 11=XNOR)
+
+$212E w1 000ABCDE   Window Mask Enable for Main Screen [TMW]
+                    **These Bits must be set for windows to work at all**
+                        A=OBJ
+			B=BG4
+			C=BG3
+			D=BG2
+			E=BG1
+
+$212E w1 000ABCDE   Window Mask Enable for Main Screen [TMW]
+                    **These Bits must be set for windows to work at all**
+                    Sub-screens are used in color +/- as explained later in this doc
+                        A=OBJ
+			B=BG4
+			C=BG3
+			D=BG2
+			E=BG1
+
+=============================================================================
+     Fixed Color Addition/Subtraction:
+=============================================================================
+
+	One of the color addition/subtraction modes allows a fixed color 
+value to be added to either the whole screen or the area covered (or the 
+inverse of the area covered) by the window masks defined for "Fixed Color +/-" 
+as listed above.  The fixed color value is set by register $2132, which has a 
+bit for Red, Green, and Blue, and a 5-bit luminance value.  This limits the 
+hue of the fixed color to one of the 8 primary and secondary colors, but 
+allows 32 levels of intensity of these colors.  Don't ask me why, I sure 
+didn't design it.  The "color window" can be enabled for the Main screen or 
+the Sub screen (but I can't figure out why, since the sub-screen is useless 
+in fixed color mode as far as I can tell)  Each background layer can have 
+color +/- enabled or disabled individually.  Some applications of this mode 
+are to darken or lighten a particular region of a background layer.  I've 
+personally used it to create shadow and lighting effects; I set up HDMA 
+transfers to alter the left and right position of a window every scanline to 
+create non-rectangular shapes.  I've also used it to darken the backgrounds
+behind text, creating a sort of translucent text window; I set vertical IRQs 
+at the top and bottom scanline of the window and in the handlers enable and 
+disable the color subtraction, creating a box that does not extend to the 
+top or bottom of the screen like the windows normally do.  See IRQ tricks 
+later in the document for more detail.
+
+$2132 w1 BGRDDDDD   Fixed Color Data for Fixed Color +/- [COLDATA]
+                        B=Blue bit
+                        G=Green bit
+                        R=Red bit
+                        D=Luminance value
+
+$2131 w1 MRGSABCD   Addition/Subtraction Enable per Layer [CGADSUB]
+                        M=1/0:Add/Subtract mode
+                        R=God only knows what this is supposed to do
+                        G=backdrop area (ie no background covers it)
+			S=OBJs
+                        A=BG4
+                        B=BG3
+                        C=BG2
+                        D=BG1
+
+$2130 w1 AABB00EF   Fixed Color/Sub-Screen add/subtract enables [CGWSEL]
+			A=Fixed Color Reportedly Sub-Screen mode, but makes no sense
+                        B=Fixed Color Main Screen Mode (00=Always, 01=Window masked 10=inverted window masked 11=Never)
+                        E=0/1:Enable Fixed color/Enable Sub-Screen add-subtract (thus sub-screen and fixed color can't be combined?)
+			F=Something unknown, related to 256-color "VGA style" drawing mode in screen modes 3,4, and 7
+
+
+=============================================================================
+     Sub-Screen Color Addition/Subtraction:
+=============================================================================
+	Ever wanted to make some transparent bubbles or clouds or something?  
+Use Sub-Screens to do it.  A sub-screen can have background layers and window 
+masks just like the main screen.  However, the sub-screen is not directly 
+displayed; instead it can be added or subtracted from the main screen just 
+like the Fixed Color mode.  To enable this mode, set $2130 to $02 and enable
+some background layers for the sub-screen.  The $2131 register works just like Fixed mode.
+
+$213D w1 000ABCDE   Sub-Screen Layer enables [TD]
+                        A=OBJs
+                        B=BG4
+                        C=BG3
+                        D=BG2
+                        E=BG1
+
+
+=============================================================================
+     IRQ Tricks:
+=============================================================================
+	The window mask registers by themselves are of damn little use; they 
+can trim unwanted edges of playing fields (for example to hide garbage from 
+the game field decompression algorithm) or do some simple wipe/pan effects.  
+The lack of control over the top and bottom edges is annoying, as is the 
+fixed rectangular shape.  Well, there are clever ways around these problems 
+if you don't mind a little extra complexity in your program.
+	To control the top and bottom of a window, you can set the Vertical 
+IRQ to go off at the appropriate scanline.  In the first interrupt, turn on 
+the window mask and setup the scanline for the next IRQ.  In the second IRQ, 
+turn off the window mask and reset the scanline for the first IRQ.  Poof, 
+you now have a fully relocateable mask window.
+	It is even easier to do the same thing using HDMA, actually.
+	To create a mask window of arbitrary shape (for example a circular 
+view that shrinks like the end of a Loony Toons cartoon or something) you 
+can setup HDMA transfers to the window left and right registers; setup the 
+left and right data in memory and setup HDMA to update the left and right 
+from this table every scanline.  Congrats, you now have a non-rectangular 
+mask region.
