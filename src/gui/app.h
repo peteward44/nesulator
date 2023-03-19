@@ -21,11 +21,13 @@ private:
 
 	boost::signals2::signal< void (IMainBoard*) > ReadyState;
 
+	void OnAppExit();
+
 public:
 	static void DisplayError( const std::string& error );
 	static std::wstring GetApplicationPathWithSep();
 	static std::wstring GetConfigFilename();
-
+	static boost::signals2::signal< void () > AppQuit;
 
 	NesulatorApp();
 

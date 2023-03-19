@@ -100,6 +100,8 @@ BEGIN_EVENT_TABLE(MainFrame, wxFrame)
 	EVT_LEFT_DOWN( MainFrame::OnMouseLeftDown )
 	EVT_LEFT_UP( MainFrame::OnMouseLeftUp )
 
+	EVT_CLOSE(MainFrame::OnClose)
+
 END_EVENT_TABLE()
 
 /////////////////////////////////////////////
@@ -718,6 +720,5 @@ void MainFrame::OnMouseLeftUp( wxMouseEvent& ev )
 
 void MainFrame::OnClose(wxCloseEvent& event)
 {
-	if (g_activeMainboard != NULL)
-		g_activeMainboard->StopLoop();
+	NesulatorApp::AppQuit();
 }

@@ -43,6 +43,7 @@ namespace
 
 ////////////////////////////////////////////////////////////////////////////////////
 
+boost::signals2::signal< void() > NesulatorApp::AppQuit;
 
 void NesulatorApp::DisplayError( const std::string& error )
 {
@@ -69,6 +70,7 @@ std::wstring NesulatorApp::GetConfigFilename()
 NesulatorApp::NesulatorApp()
 : mainFrame( NULL ), mQuitNow( false )
 {
+	NesulatorApp::AppQuit.connect(boost::bind(&NesulatorApp::OnAppExit, this));
 }
 
 
@@ -77,6 +79,10 @@ void NesulatorApp::StartShutdown()
 	mQuitNow = true;
 	if ( g_activeMainboard != NULL )
 		g_activeMainboard->StopLoop();
+}
+
+void NesulatorApp::OnAppExit() {
+	StartShutdown();
 }
 
 
@@ -145,7 +151,7 @@ int NesulatorApp::OnRun()
 {
 	try
 	{
-		SetExitOnFrameDelete(true);
+		SetExitOnFrameDelete(false);
 		stopWatch.Start();
 
 		EventLoop eventLoop(this);
@@ -171,6 +177,7 @@ int NesulatorApp::OnRun()
 				}
 			}
 		}
+		ExitMainLoop();
 	}
 	catch ( std::exception& e )
 	{
