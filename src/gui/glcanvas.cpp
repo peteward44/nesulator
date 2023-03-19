@@ -25,6 +25,8 @@ GLCanvas::GLCanvas( wxWindow* parent, long style, const wxGLAttributes& attribLi
 	mAttachedRenderBuffer = NULL;
 	zoomx = zoomy = 1.0f;
 
+	mContext = new wxGLContext(this);
+
 	SetZoomSize( GetClientSize().GetWidth(), GetClientSize().GetHeight() );
 
 	g_options->AttachToSyncEvent( boost::bind( &GLCanvas::SyncWithOptions, this ) );
@@ -114,15 +116,15 @@ void GLCanvas::Render()
 {
 	if ( GetParent()->IsShown() && mAttachedRenderBuffer != NULL )
 	{
-		//SetCurrent();
+		SetCurrent(*this->mContext);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor( 0.0f, 0.0f, 0.0f, 1.0f);
 
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		glDisable(GL_DITHER);
 
-		int w = this->GetSize().GetWidth();
-		int h = this->GetSize().GetHeight();
+		const int w = this->GetSize().GetWidth();
+		const int h = this->GetSize().GetHeight();
 
 		int x = 256, y = 240;
 		mAttachedRenderBuffer->GetBufferSize( x, y );

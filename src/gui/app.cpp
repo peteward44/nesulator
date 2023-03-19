@@ -158,13 +158,16 @@ int NesulatorApp::OnRun()
 			if ( g_activeMainboard != NULL )
 			{
 				g_activeMainboard->DoLoop();
+				break;
 			}
 			else
 			{
 				while ( g_activeMainboard == NULL && !mQuitNow )
 				{
 					Sleep( 100 );
-					DoWindowsEvents();
+					if (!mQuitNow) {
+						DoWindowsEvents();
+					}
 				}
 			}
 		}
@@ -196,7 +199,7 @@ bool NesulatorApp::DoWindowsEvents()
 	//if ( g_activeMainboard != NULL && !g_activeMainboard->IsRunning() )
 	//	return false;
 
-	while ( !Pending() && ProcessIdle() );
+	while ( !mQuitNow && !Pending() && ProcessIdle() );
 
 	while ( Pending() )
 	{

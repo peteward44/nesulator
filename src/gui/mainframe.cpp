@@ -405,12 +405,10 @@ MainFrame::MainFrame( int windowWidth, int windowHeight )
 	SetAcceleratorTable( accelerators );
 
 	// set up opengl
-	//int attributes[] = { WX_GL_DEPTH_SIZE, 0, WX_GL_BUFFER_SIZE, 24, WX_GL_DOUBLEBUFFER, /*WX_GL_RGBA*/ };
 	wxGLAttributes attributes;
 	attributes.PlatformDefaults()
-		.RGBA()
-		.MinRGBA(8, 8, 8, 0)
-		.Depth(24)
+		.Depth(0)
+		.BufferSize(24)
 		.DoubleBuffer()
 		.EndList();
 	this->canvas = new GLCanvas( this, wxSUNKEN_BORDER, attributes );

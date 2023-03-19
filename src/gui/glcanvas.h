@@ -12,6 +12,7 @@ class GLCanvas : public wxGLCanvas
 private:
 	float zoomx, zoomy;
 	IRenderBuffer* mAttachedRenderBuffer;
+	wxGLContext* mContext;
 
 	DECLARE_EVENT_TABLE();
 
