@@ -169,7 +169,7 @@ bool MainBoard::StartNewFrame( )
 		ticksThisFrame = callbackInterface->GetTicks();
 
 		if ( ticksThisFrame > targetTicks
-			|| ( g_options->SoundEnabled && g_options->ApplicationSpeed == 0 ) ) // allow the sound library to handle setting the framerate as it is more accurate
+			/* || (g_options->SoundEnabled && g_options->ApplicationSpeed == 0)*/) // allow the sound library to handle setting the framerate as it is more accurate
 		{
 			waiting = false;
 		}

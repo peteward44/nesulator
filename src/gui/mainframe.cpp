@@ -267,10 +267,10 @@ MainFrame::MainFrame( int windowWidth, int windowHeight )
 
 	// state menus
 	saveStateMenu = new wxMenu();
-	saveStateMenu->Append( ID_MENUSAVESTATE_0, "Slot 1\tF5" );
-	saveStateMenu->Append( ID_MENUSAVESTATE_1, "Slot 2\tF6" );
-	saveStateMenu->Append( ID_MENUSAVESTATE_2, "Slot 3\tF7" );
-	saveStateMenu->Append( ID_MENUSAVESTATE_3, "Slot 4\tF8" );
+	saveStateMenu->Append( ID_MENUSAVESTATE_0, L"Slot 1\tF5" );
+	saveStateMenu->Append( ID_MENUSAVESTATE_1, L"Slot 2\tF6" );
+	saveStateMenu->Append( ID_MENUSAVESTATE_2, L"Slot 3\tF7" );
+	saveStateMenu->Append( ID_MENUSAVESTATE_3, L"Slot 4\tF8" );
 
 	// for some reason using for loops to populate the menus cause the screen to be permanently black?!
 
@@ -278,114 +278,114 @@ MainFrame::MainFrame( int windowWidth, int windowHeight )
 //		saveStateMenu->Append( ID_MENUSAVESTATE_0 + i, wxString( ( boost::format( "Slot %1%\tF%2%" ) % ( i + 1 ) % ( i + 5 ) ).str().c_str() ) );
 
 	loadStateMenu = new wxMenu();
-	loadStateMenu->Append( ID_MENULOADSTATE_0, "Slot 1\tF9" );
-	loadStateMenu->Append( ID_MENULOADSTATE_1, "Slot 2\tF10" );
-	loadStateMenu->Append( ID_MENULOADSTATE_2, "Slot 3\tF11" );
-	loadStateMenu->Append( ID_MENULOADSTATE_3, "Slot 4\tF12" );
+	loadStateMenu->Append( ID_MENULOADSTATE_0, L"Slot 1\tF9" );
+	loadStateMenu->Append( ID_MENULOADSTATE_1, L"Slot 2\tF10" );
+	loadStateMenu->Append( ID_MENULOADSTATE_2, L"Slot 3\tF11" );
+	loadStateMenu->Append( ID_MENULOADSTATE_3, L"Slot 4\tF12" );
 
 //	for ( int i=0; i<4; ++i )
 //		loadStateMenu->Append( ID_MENULOADSTATE_0 + i, wxString( ( boost::format( "Slot %1%\tF%2%" ) % ( i + 1 ) % ( i + 9 ) ).str().c_str() ) );
 
 	// File
 	wxMenu* fileMenu = new wxMenu();
-	fileMenu->Append(ID_MENULOAD, "Load...");
+	fileMenu->Append(ID_MENULOAD, L"Load...");
 	fileMenu->AppendSeparator();
-	fileMenu->AppendSubMenu( saveStateMenu, "Save State" );
-	fileMenu->AppendSubMenu( loadStateMenu, "Load State" );
+	fileMenu->AppendSubMenu( saveStateMenu, L"Save State" );
+	fileMenu->AppendSubMenu( loadStateMenu, L"Load State" );
 	fileMenu->AppendSeparator();
 
 #ifdef ENABLE_DECOMPILE
-	fileMenu->Append(ID_MENUDECOMPILE, "Decompile...");
+	fileMenu->Append(ID_MENUDECOMPILE, L"Decompile...");
 	fileMenu->AppendSeparator();
 #endif
 
-	fileMenu->Append(ID_MENUEXIT, "Exit");
+	fileMenu->Append(ID_MENUEXIT, L"Exit");
 
-	menuBar->Append(fileMenu, "File");
+	menuBar->Append(fileMenu, L"File");
 
 	// Options
 	wxMenu* modeMenu = new wxMenu();
-	menuNtsc = new wxMenuItem( modeMenu, ID_MENUNTSCMODE, "NTSC", wxEmptyString, wxITEM_CHECK );
+	menuNtsc = new wxMenuItem( modeMenu, ID_MENUNTSCMODE, L"NTSC", wxEmptyString, wxITEM_CHECK );
 	modeMenu->Append( menuNtsc );
 	menuNtsc->Check();
-	menuPal = new wxMenuItem( modeMenu, ID_MENUPALMODE, "PAL", wxEmptyString, wxITEM_CHECK );
+	menuPal = new wxMenuItem( modeMenu, ID_MENUPALMODE, L"PAL", wxEmptyString, wxITEM_CHECK );
 	modeMenu->Append( menuPal );
 	menuPal->Check( false );
 
 	wxMenu* optionsMenu = new wxMenu();
-	optionsMenu->Append( ID_MENUOPTIONS, "Options..." );
+	optionsMenu->Append( ID_MENUOPTIONS, L"Options..." );
 	optionsMenu->AppendSeparator();
-	optionsMenu->AppendSubMenu( modeMenu, "Mode" );
+	optionsMenu->AppendSubMenu( modeMenu, L"Mode" );
 	optionsMenu->AppendSeparator();
-	optionsMenu->Append( ID_MENUCOLDRESET, "Cold Reset" );
-	optionsMenu->Append( ID_MENUWARMRESET, "Warm Reset" );
+	optionsMenu->Append( ID_MENUCOLDRESET, L"Cold Reset" );
+	optionsMenu->Append( ID_MENUWARMRESET, L"Warm Reset" );
 	optionsMenu->AppendSeparator();
-	optionsMenu->Append( ID_MENUCARTINFO, "Cartridge Information" );
+	optionsMenu->Append( ID_MENUCARTINFO, L"Cartridge Information" );
 
-	menuBar->Append( optionsMenu, "Options" );
+	menuBar->Append( optionsMenu, L"Options" );
 
 	// size menu
 	wxMenu* sizeMenu = new wxMenu();
 
-	sizeMenu->Append( ID_MENUSIZE_0, "256 x 240" );
-	sizeMenu->Append( ID_MENUSIZE_1, "512 x 480" );
-	sizeMenu->Append( ID_MENUSIZE_2, "768 x 720" );
-	sizeMenu->Append( ID_MENUSIZE_3, "1024 x 960" );
+	sizeMenu->Append( ID_MENUSIZE_0, L"256 x 240" );
+	sizeMenu->Append( ID_MENUSIZE_1, L"512 x 480" );
+	sizeMenu->Append( ID_MENUSIZE_2, L"768 x 720" );
+	sizeMenu->Append( ID_MENUSIZE_3, L"1024 x 960" );
 
-	menuBar->Append( sizeMenu, "Size" );
+	menuBar->Append( sizeMenu, L"Size" );
 
 	// speed menu
 	wxMenu* speedMenu = new wxMenu();
 
-	speedMenus[0] = new wxMenuItem( speedMenu, ID_MENUSPEED_0, "Normal (100%)", wxEmptyString, wxITEM_CHECK );
+	speedMenus[0] = new wxMenuItem( speedMenu, ID_MENUSPEED_0, L"Normal (100%)", wxEmptyString, wxITEM_CHECK );
 	speedMenu->Append( speedMenus[0] );
 	speedMenu->AppendSeparator();
 	
-	speedMenus[1] = new wxMenuItem( speedMenu, ID_MENUSPEED_1, "Very fast (Unlimited)", wxEmptyString, wxITEM_CHECK );
+	speedMenus[1] = new wxMenuItem( speedMenu, ID_MENUSPEED_1, L"Very fast (Unlimited)", wxEmptyString, wxITEM_CHECK );
 	speedMenu->Append( speedMenus[1] );
-	speedMenus[2] = new wxMenuItem( speedMenu, ID_MENUSPEED_2, "Fast (150%)", wxEmptyString, wxITEM_CHECK );
+	speedMenus[2] = new wxMenuItem( speedMenu, ID_MENUSPEED_2, L"Fast (150%)", wxEmptyString, wxITEM_CHECK );
 	speedMenu->Append( speedMenus[2] );
-	speedMenus[3] = new wxMenuItem ( speedMenu, ID_MENUSPEED_3, "A bit fast (125%)", wxEmptyString, wxITEM_CHECK );
+	speedMenus[3] = new wxMenuItem ( speedMenu, ID_MENUSPEED_3, L"A bit fast (125%)", wxEmptyString, wxITEM_CHECK );
 	speedMenu->Append( speedMenus[3] );
 	speedMenu->AppendSeparator();
 
-	speedMenus[4] = new wxMenuItem( speedMenu, ID_MENUSPEED_4, "A bit slow (75%)", wxEmptyString, wxITEM_CHECK );
+	speedMenus[4] = new wxMenuItem( speedMenu, ID_MENUSPEED_4, L"A bit slow (75%)", wxEmptyString, wxITEM_CHECK );
 	speedMenu->Append( speedMenus[4] );
-	speedMenus[5] = new wxMenuItem( speedMenu, ID_MENUSPEED_5, "Slow (50%)", wxEmptyString, wxITEM_CHECK );
+	speedMenus[5] = new wxMenuItem( speedMenu, ID_MENUSPEED_5, L"Slow (50%)", wxEmptyString, wxITEM_CHECK );
 	speedMenu->Append( speedMenus[5] );
-	speedMenus[6] = new wxMenuItem( speedMenu, ID_MENUSPEED_6, "Very slow (25%)", wxEmptyString, wxITEM_CHECK );
+	speedMenus[6] = new wxMenuItem( speedMenu, ID_MENUSPEED_6, L"Very slow (25%)", wxEmptyString, wxITEM_CHECK );
 	speedMenu->Append( speedMenus[6] );
 
-	menuBar->Append( speedMenu, "Speed" );
+	menuBar->Append( speedMenu, L"Speed" );
 
 	speedMenus[ g_options->ApplicationSpeed ]->Check();
 
 #ifdef ENABLE_LOGGING
 	wxMenu* logMenu = new wxMenu();
 
-	logMenu->Append( ID_MENULOGALL, "All" );
+	logMenu->Append( ID_MENULOGALL, L"All" );
 	logMenu->AppendSeparator();
 
-	loggingMenus[0] = new wxMenuItem( logMenu, ID_MENULOGCPU, "CPU", wxEmptyString, wxITEM_CHECK );
+	loggingMenus[0] = new wxMenuItem( logMenu, ID_MENULOGCPU, L"CPU", wxEmptyString, wxITEM_CHECK );
 	loggingMenus[0]->Check( Log::IsTypeEnabled( LOG_CPU ) );
-	loggingMenus[1] = new wxMenuItem( logMenu, ID_MENULOGPPU, "PPU", wxEmptyString, wxITEM_CHECK );
+	loggingMenus[1] = new wxMenuItem( logMenu, ID_MENULOGPPU, L"PPU", wxEmptyString, wxITEM_CHECK );
 	loggingMenus[1]->Check( Log::IsTypeEnabled( LOG_PPU ) );
-	loggingMenus[2] = new wxMenuItem( logMenu, ID_MENULOGMAPPER, "Mapper", wxEmptyString, wxITEM_CHECK );
+	loggingMenus[2] = new wxMenuItem( logMenu, ID_MENULOGMAPPER, L"Mapper", wxEmptyString, wxITEM_CHECK );
 	loggingMenus[2]->Check( Log::IsTypeEnabled( LOG_MAPPER ) );
-	loggingMenus[3] = new wxMenuItem( logMenu, ID_MENULOGMISC, "Misc", wxEmptyString, wxITEM_CHECK );
+	loggingMenus[3] = new wxMenuItem( logMenu, ID_MENULOGMISC, L"Misc", wxEmptyString, wxITEM_CHECK );
 	loggingMenus[3]->Check( Log::IsTypeEnabled( LOG_MISC ) );
 
 	for ( int i=0; i<4; ++i )
 		logMenu->Append( loggingMenus[i] );
 
-	menuBar->Append(logMenu, "Logging");
+	menuBar->Append(logMenu, L"Logging");
 #endif
 
 	// Help
 	wxMenu* helpMenu = new wxMenu();
-	helpMenu->Append(ID_MENUABOUT, "About...");
+	helpMenu->Append(ID_MENUABOUT, L"About...");
 
-	menuBar->Append(helpMenu, "Help");
+	menuBar->Append(helpMenu, L"Help");
 
 	this->SetMenuBar(menuBar);
 
@@ -458,7 +458,7 @@ void MainFrame::OnMenuCartInfo( wxCommandEvent& ev )
 
 void MainFrame::OnMenuLoad( wxCommandEvent& ev )
 {
-	wxFileDialog* dialog = new wxFileDialog( this, "Open iNES ROM file", wxEmptyString, wxEmptyString, "iNES files (*.nes)|*.nes|All files (*.*)|*.*",
+	wxFileDialog* dialog = new wxFileDialog( this, L"Open iNES ROM file", wxEmptyString, wxEmptyString, L"iNES files (*.nes)|*.nes|All files (*.*)|*.*",
 		wxFD_FILE_MUST_EXIST | wxFD_OPEN );
 
 	if ( dialog->ShowModal() == wxID_OK )
@@ -478,15 +478,15 @@ void MainFrame::OnMenuLoad( wxCommandEvent& ev )
 void MainFrame::OnMenuDecompile( wxCommandEvent& ev )
 {
 #ifdef ENABLE_DECOMPILE
-	wxFileDialog* dialog = new wxFileDialog( this, "Open iNES ROM file", wxEmptyString, wxEmptyString, "iNES files (*.nes)|*.nes|All files (*.*)|*.*",
+	wxFileDialog* dialog = new wxFileDialog( this, L"Open iNES ROM file", wxEmptyString, wxEmptyString, L"iNES files (*.nes)|*.nes|All files (*.*)|*.*",
 		wxFD_FILE_MUST_EXIST | wxFD_OPEN );
 
 	if ( dialog->ShowModal() == wxID_OK )
 	{
 		try
 		{
-			wxFileDialog* decompileDialog = new wxFileDialog( this, "Save to text file", wxEmptyString, wxEmptyString,
-				"Text file (*.txt)|*.txt|All files (*.*)|*.*",
+			wxFileDialog* decompileDialog = new wxFileDialog( this, L"Save to text file", wxEmptyString, wxEmptyString,
+				L"Text file (*.txt)|*.txt|All files (*.*)|*.*",
 				wxFD_SAVE );
 
 			if ( decompileDialog->ShowModal() == wxID_OK )
@@ -510,7 +510,7 @@ void MainFrame::OnMenuLogging( wxCommandEvent& ev )
 	{
 	case ID_MENULOGALL:
 	{
-		bool allenabled = Log::IsTypeEnabled( LOG_CPU | LOG_PPU | LOG_MAPPER | LOG_MISC );
+		const bool allenabled = Log::IsTypeEnabled( LOG_CPU | LOG_PPU | LOG_MAPPER | LOG_MISC );
 
 		if ( !allenabled )
 			Log::EnableType( LOG_CPU | LOG_PPU | LOG_MAPPER | LOG_MISC );
@@ -716,3 +716,8 @@ void MainFrame::OnMouseLeftUp( wxMouseEvent& ev )
 		g_activeMainboard->GetInputBus()->OnMouseLeftUp( x, y );
 }
 
+void MainFrame::OnClose(wxCloseEvent& event)
+{
+	if (g_activeMainboard != NULL)
+		g_activeMainboard->StopLoop();
+}

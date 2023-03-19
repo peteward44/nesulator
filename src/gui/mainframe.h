@@ -82,6 +82,8 @@ public:
 	void OnKeyDown(wxKeyEvent& ev);
 	void OnKeyUp(wxKeyEvent& ev);
 
+	void OnClose(wxCloseEvent& event);
+
 	inline GLCanvas* GetCanvas() { return canvas; }
 	inline void SetFps( float fps ) { statusBar->SetFPS( fps ); }
 	inline void SetRomName( const std::wstring& name ) { statusBar->SetName( name ); }

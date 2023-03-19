@@ -35,6 +35,7 @@ GLCanvas::GLCanvas( wxWindow* parent, long style, const wxGLAttributes& attribLi
 
 GLCanvas::~GLCanvas()
 {
+	delete mContext;
 }
 
 
