@@ -1,20 +1,22 @@
 
-#include "stdafx.h"
+
+#include "main.h"
 #include "cartridge.h"
 #include "mainboard.h"
 #include "wx/log.h"
 
 #include <cstdio>
 #include "boost/filesystem/operations.hpp"
+#include <filesystem>
 
 
-CartridgePtr_t CreateCartridgeFromROM( const std::string& filename, bool onlyloadinfo )
+CartridgePtr_t CreateCartridgeFromROM( const std::wstring& filename, bool onlyloadinfo )
 {
 	return CartridgePtr_t( new Cartridge( filename, onlyloadinfo ) );
 }
 
 
-Cartridge::Cartridge( const std::string& nesfilename, bool onlyloadinfo )
+Cartridge::Cartridge( const std::wstring& nesfilename, bool onlyloadinfo )
 {
 	programPageCount = characterPageCount = mapperId = 0;
 	hasTrainer = sramEnabled = false;
@@ -24,9 +26,9 @@ Cartridge::Cartridge( const std::string& nesfilename, bool onlyloadinfo )
 
 	try
 	{
-		Log::Write( LOG_MISC, ( boost::format( "Loading ROM file: %1%" ) % nesfilename.c_str() ).str() );
-
-		fopen_s( &file, nesfilename.c_str(), "rb" );
+		Log::Write( LOG_MISC, ( boost::wformat( L"Loading ROM file: %1%" ) % nesfilename ).str() );
+		
+		_wfopen_s( &file, nesfilename.c_str(), L"rb" );
 		if (file == 0)
 			throw std::runtime_error( "File not found" );
 
@@ -76,8 +78,8 @@ Cartridge::Cartridge( const std::string& nesfilename, bool onlyloadinfo )
 		file = 0;
 
 		this->filename = nesfilename;
-		boost::filesystem::path filepath( this->filename, boost::filesystem::native );
-		this->name = filepath.leaf().generic_string();
+		std::filesystem::path filepath(this->filename);
+		this->name = filepath.filename().wstring();
 
 		if ( !onlyloadinfo )
 		{
@@ -87,20 +89,20 @@ Cartridge::Cartridge( const std::string& nesfilename, bool onlyloadinfo )
 			int newMapperId = CheckCRCForBrokenMapperId( crc32, mapperId );
 			if ( newMapperId != mapperId )
 			{
-				Log::Write( LOG_MISC, ( boost::format( "Using mapper #%1% instead of reported #%2%" ) % newMapperId % mapperId ).str() );
+				Log::Write( LOG_MISC, ( boost::wformat( L"Using mapper #%1% instead of reported #%2%" ) % newMapperId % mapperId ).str() );
 				mapperId = newMapperId;
 			}
 
 			memorymapper = CreateMemoryMapper( mapperId, mirroringMethod );
 
-			Log::Write( LOG_MISC, ( boost::format( "ROM uses mapper %1% (#%2%)" ) % memorymapper->GetName() % mapperId ).str() );
+			Log::Write( LOG_MISC, ( boost::wformat( L"ROM uses mapper %1% (#%2%)" ) % memorymapper->GetName() % mapperId ).str() );
 
 			if ( memorymapper->HasKnownProblems() )
 			{
-				Log::Write( LOG_ERROR, "This ROM mapper has known compatibility issues with some games. You have been warned" );
+				Log::Write( LOG_ERROR, L"This ROM mapper has known compatibility issues with some games. You have been warned" );
 			}
 
-			fopen_s( &file, nesfilename.c_str(), "rb" );
+			_wfopen_s( &file, nesfilename.c_str(), L"rb" );
 			if (file == 0)
 				throw std::runtime_error( "File not found" );
 			fseek( file, 16, SEEK_SET );
@@ -136,7 +138,7 @@ Cartridge::Cartridge( const std::string& nesfilename, bool onlyloadinfo )
 	{
 		if ( file != 0 )
 			fclose( file );
-		Log::Write( LOG_ERROR, ( boost::format( "Exception caught when attempting to load NES rom: %1% : %2%" ) % nesfilename % e.what() ).str() );
+		Log::Write( LOG_ERROR, ( boost::wformat( L"Exception caught when attempting to load NES rom: %1% : %2%" ) % nesfilename % e.what() ).str() );
 		throw;
 	}
 }

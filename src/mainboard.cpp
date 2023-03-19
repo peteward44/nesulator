@@ -1,9 +1,10 @@
 
-#include "stdafx.h"
+
+#include "main.h"
 #include "mainboard.h"
 #include <sstream>
 #include <cmath>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 #include "decompiler.h"
 #include <fstream>
 #include "log.h"
@@ -14,11 +15,11 @@ MainBoard* g_nesMainboard = NULL;
 bool Log::enable = false;
 int Log::typesEnabled = 0;
 
-#pragma comment( lib, "sdl.lib" )
-#pragma comment( lib, "sdl_sound_static.lib" )
+//#pragma comment( lib, "sdl.lib" )
+//#pragma comment( lib, "sdl_sound_static.lib" )
 
-const char* APP_NAME = "Nesulator";
-const char* APP_VERSION_STRING = "0.2";
+const wchar_t* APP_NAME = L"Nesulator";
+const wchar_t* APP_VERSION_STRING = L"0.2";
 
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -89,7 +90,7 @@ void MainBoard::CreateComponents()
 
 void MainBoard::Reset( bool cold )
 {
-	Log::Write( LOG_MISC, ( boost::format( "%1% reset" ) % ( cold ? "Cold" : "Warm" ) ).str() );
+	Log::Write( LOG_MISC, ( boost::wformat( L"%1% reset" ) % ( cold ? L"Cold" : L"Warm" ) ).str() );
 	ResetEvent( cold );
 	renderBuffer->ClearBuffer( ppu->GetBackgroundPaletteIndex() );
 }
@@ -125,7 +126,7 @@ void MainBoard::OnChangeSpeed()
 		break;
 	}
 
-	ticksIncrement = (Uint32)(( 1000.0f / ( ( (float)this->modeConstants->RefreshRate() * multiplier )) ));
+	ticksIncrement = (boost::uint32_t)(( 1000.0f / ( ( (float)this->modeConstants->RefreshRate() * multiplier )) ));
 }
 
 
@@ -145,7 +146,7 @@ bool MainBoard::StartNewFrame( )
 	callbackInterface->Render();
 
 	bool waiting = true;
-	Uint32 ticksThisFrame = 0;
+	boost::uint32_t ticksThisFrame = 0;
 
 	while ( paused )
 	{
@@ -176,9 +177,9 @@ bool MainBoard::StartNewFrame( )
 			callbackInterface->Sleep( 0 );
 	}
 
-	targetTicks = (Uint32)ticksThisFrame + ticksIncrement;
+	targetTicks = (boost::uint32_t)ticksThisFrame + ticksIncrement;
 
-	Uint32 ticksDifference = ticksThisFrame - ticksLastFrame;
+	boost::uint32_t ticksDifference = ticksThisFrame - ticksLastFrame;
 	ticksLastFrame = ticksThisFrame;
 	ticksThisSecond += ticksDifference;
 
@@ -196,7 +197,7 @@ bool MainBoard::StartNewFrame( )
 
 	if ( takeScreenshot )
 	{
-		std::string screenshotFilename = GetScreenshotFilename();
+		std::wstring screenshotFilename = GetScreenshotFilename();
 
 		int x = 0, y = 0;
 		renderBuffer->GetBufferSize( x, y );
@@ -210,7 +211,7 @@ bool MainBoard::StartNewFrame( )
 
 		takeScreenshot = false;
 
-		Log::Write( LOG_MISC, ( boost::format( "Screenshot saved: %1%" ) % screenshotFilename ).str() );
+		Log::Write( LOG_MISC, ( boost::wformat( L"Screenshot saved: %1%" ) % screenshotFilename ).str() );
 	}
 
 	// start next frame
@@ -220,7 +221,7 @@ bool MainBoard::StartNewFrame( )
 }
 
 
-std::string MainBoard::GetScreenshotFilename()
+std::wstring MainBoard::GetScreenshotFilename()
 {
 	wxFileName path( g_options->ScreenshotsDirectory + "\\" );
 
@@ -231,11 +232,11 @@ std::string MainBoard::GetScreenshotFilename()
 	int num = 1;
 	do
 	{
-		file = wxFileName( ( boost::format( "%1%%2$X_%3%.bmp" ) % path.GetPathWithSep().c_str() % GetCartridge()->GetCRC32() % num ).str() );
+		file = wxFileName( ( boost::wformat( L"%1%%2$X_%3%.bmp" ) % path.GetPathWithSep().c_str() % GetCartridge()->GetCRC32() % num ).str() );
 		num++;
 	}
 	while ( file.FileExists() );
-	return file.GetFullPath().c_str();
+	return file.GetFullPath().ToStdWstring();
 }
 
 
@@ -261,7 +262,7 @@ void MainBoard::StopLoop()
 }
 
 
-void MainBoard::LoadCartridge( const std::string& path )
+void MainBoard::LoadCartridge( const std::wstring& path )
 {
 	try
 	{
@@ -271,7 +272,7 @@ void MainBoard::LoadCartridge( const std::string& path )
 	}
 	catch ( std::exception& e )
 	{
-		::wxMessageBox( e.what(), "Error loading ROM", 4|wxCENTRE );
+		::wxMessageBox( L"Error loading ROM", L"Error loading ROM", 4 | wxCENTRE);
 	}
 }
 
@@ -338,11 +339,11 @@ void MainBoard::SetTerritoryMode( TERRITORY_MODE mode )
 
 	OnChangeSpeed(); // refresh rate has changed, recalculate frame timing
 
-	Log::Write( LOG_MISC, ( boost::format( "Changing to mode: %1%" ) % modeConstants->Name() ).str() );
+	Log::Write( LOG_MISC, ( boost::wformat( L"Changing to mode: %1%" ) % modeConstants->Name() ).str() );
 }
 
 
-void MainBoard::SaveState( const std::string& filename )
+void MainBoard::SaveState( const std::wstring& filename )
 {
 	if ( !running )
 		return;
@@ -365,11 +366,11 @@ void MainBoard::SaveState( const std::string& filename )
 
 	ostr.close();
 
-	Log::Write( LOG_MISC, ( boost::format( "State saved to: %1%" ) % filename ).str() );
+	Log::Write( LOG_MISC, ( boost::wformat( L"State saved to: %1%" ) % filename ).str() );
 }
 
 
-void MainBoard::LoadState( const std::string& filename )
+void MainBoard::LoadState( const std::wstring& filename )
 {
 	if ( !running )
 		return;
@@ -400,5 +401,5 @@ void MainBoard::LoadState( const std::string& filename )
 
 	istr.close();
 
-	Log::Write( LOG_MISC, ( boost::format( "State loaded: %1%" ) % filename ).str() );
+	Log::Write( LOG_MISC, ( boost::wformat( L"State loaded: %1%" ) % filename ).str() );
 }

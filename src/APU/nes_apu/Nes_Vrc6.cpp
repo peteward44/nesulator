@@ -1,7 +1,7 @@
 
 // Nes_Snd_Emu 0.1.7. http://www.slack.net/~ant/libs/
 
-#include "stdafx.h"
+
 #include "Nes_Vrc6.h"
 
 /* Copyright (C) 2003-2005 Shay Green. This module is free software; you

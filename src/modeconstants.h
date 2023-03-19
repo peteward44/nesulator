@@ -18,7 +18,7 @@ public:
 	virtual int MasterCyclesPerCPU() const = 0;
 	virtual int VBlankScanlines() const = 0;
 	virtual int FrameScanlines() const = 0;
-	virtual std::string Name() const = 0;
+	virtual std::wstring Name() const = 0;
 	virtual TERRITORY_MODE Mode() const = 0;
 };
 
@@ -32,7 +32,7 @@ public:
 	virtual int VBlankScanlines() const { return 20; }
 	virtual int FrameScanlines() const { return 262; }
 
-	virtual std::string Name() const { return "NTSC"; }
+	virtual std::wstring Name() const { return L"NTSC"; }
 	virtual TERRITORY_MODE Mode() const { return TERRITORY_NTSC; }
 };
 
@@ -46,7 +46,7 @@ public:
 	virtual int VBlankScanlines() const { return 70; }
 	virtual int FrameScanlines() const { return 312; }
 
-	virtual std::string Name() const { return "PAL"; }
+	virtual std::wstring Name() const { return L"PAL"; }
 	virtual TERRITORY_MODE Mode() const { return TERRITORY_PAL; }
 };
 

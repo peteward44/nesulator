@@ -1,7 +1,8 @@
 
-#include "stdafx.h"
+
 #include <string>
 #include <cstdio>
+#include <stdexcept>
 
 unsigned long  crctable[256] =
 {
@@ -92,15 +93,15 @@ unsigned long CalculateCRC32( unsigned char *data, unsigned long datalen )
 }
 
 
-unsigned long CalculateCRC32( const std::string& filename )
+unsigned long CalculateCRC32( const std::wstring& filename )
 {
 	FILE* file = NULL;
-	fopen_s( &file, filename.c_str(), "rb" );
+	_wfopen_s( &file, filename.c_str(), L"rb" );
 	if ( file == 0 )
 		throw std::runtime_error( "Could not open file" );
 
 	fseek( file, 0, SEEK_END );
-	unsigned int datasize = ftell( file );
+	const unsigned int datasize = ftell( file );
 	fseek( file, 0, SEEK_SET );
 
 	unsigned char* data = new unsigned char[ datasize ];

@@ -20,7 +20,7 @@
 //                                                                               //
 ///////////////////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "main.h"
 #include "apu_dx.h"
 #include "mainboard.h"
 

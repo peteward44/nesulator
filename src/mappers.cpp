@@ -1,9 +1,11 @@
 
-#include "stdafx.h"
+
+#include "main.h"
 #include "mappers.h"
 #include "mainboard.h"
 #include "mapper4.h"
 
+using namespace boost::placeholders;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -15,7 +17,7 @@ public:
 
 	virtual void OnReset( bool cold );
 
-	virtual std::string GetName() const { return "NROM"; }
+	virtual std::wstring GetName() const { return L"NROM"; }
 
 };
 
@@ -49,7 +51,7 @@ public:
 	
 	virtual void OnReset( bool cold );
 
-	virtual std::string GetName() const { return "Nintendo MMC1"; }
+	virtual std::wstring GetName() const { return L"Nintendo MMC1"; }
 };
 
 
@@ -65,7 +67,7 @@ public:
 	virtual void OnReset( bool cold );
 	virtual void Write8PrgRom( UInt16_t offset, Byte_t data );
 
-	virtual std::string GetName() const { return "UNROM"; }
+	virtual std::wstring GetName() const { return L"UNROM"; }
 };
 
 
@@ -82,7 +84,7 @@ public:
 	virtual void Write8PrgRom( UInt16_t offset, Byte_t data );
 	virtual void Write8ChrRom( UInt16_t offset, Byte_t data );
 
-	virtual std::string GetName() const { return "CNROM"; }
+	virtual std::wstring GetName() const { return L"CNROM"; }
 };
 
 
@@ -150,7 +152,7 @@ public:
 	virtual void OnReset( bool cold );
 	virtual void Write8PrgRom( UInt16_t offset, Byte_t data );
 
-	virtual std::string GetName() const { return "FFE F4xxx"; }
+	virtual std::wstring GetName() const { return L"FFE F4xxx"; }
 
 	virtual bool HasKnownProblems() const { return true; } // not tested enough
 };
@@ -172,7 +174,7 @@ public:
 	virtual void OnReset( bool cold );
 	virtual void Write8PrgRom( UInt16_t offset, Byte_t data );
 
-	virtual std::string GetName() const { return "AOROM"; }
+	virtual std::wstring GetName() const { return L"AOROM"; }
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -189,7 +191,7 @@ public:
 	virtual void OnReset( bool cold );
 	virtual void Write8PrgRom( UInt16_t offset, Byte_t data );
 
-	virtual std::string GetName() const { return "FFE F3xxx"; }
+	virtual std::wstring GetName() const { return L"FFE F3xxx"; }
 
 	virtual bool HasKnownProblems() const { return true; } // not tested enough
 };
@@ -208,7 +210,7 @@ public:
 	virtual void OnReset( bool cold );
 	virtual void Write8PrgRom( UInt16_t offset, Byte_t data );
 
-	virtual std::string GetName() const { return "Color Dreams"; }
+	virtual std::wstring GetName() const { return L"Color Dreams"; }
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -225,7 +227,7 @@ public:
 	virtual void OnReset( bool cold );
 	virtual void Write8PrgRom( UInt16_t offset, Byte_t data );
 
-	virtual std::string GetName() const { return "CPROM"; }
+	virtual std::wstring GetName() const { return L"CPROM"; }
 };
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -240,7 +242,7 @@ public:
 	virtual void OnReset( bool cold );
 	virtual void Write8PrgRom( UInt16_t offset, Byte_t data );
 
-	virtual std::string GetName() const { return "X-in-1"; }
+	virtual std::wstring GetName() const { return L"X-in-1"; }
 
 	virtual bool HasKnownProblems() const { return true; } // Pirate rom mapper
 };
@@ -257,7 +259,7 @@ public:
 	virtual void OnReset( bool cold );
 	virtual void Write8EXRam( UInt16_t offset, Byte_t data );
 
-	virtual std::string GetName() const { return "FFE F8xxx"; }
+	virtual std::wstring GetName() const { return L"FFE F8xxx"; }
 
 	virtual bool HasKnownProblems() const { return true; } // not tested enough
 };
@@ -278,7 +280,7 @@ public:
 	virtual void OnReset( bool cold );
 	virtual void Write8PrgRom( UInt16_t offset, Byte_t data );
 
-	virtual std::string GetName() const { return "Jaleco SS8806"; }
+	virtual std::wstring GetName() const { return L"Jaleco SS8806"; }
 
 	virtual bool HasKnownProblems() const { return true; } // not tested enough
 };
@@ -299,7 +301,7 @@ public:
 	virtual void Write8SRam( UInt16_t offset, Byte_t data );
 	virtual void Write8PrgRom( UInt16_t offset, Byte_t data );
 
-	virtual std::string GetName() const { return "NINA-1"; }
+	virtual std::wstring GetName() const { return L"NINA-1"; }
 
 	virtual bool HasKnownProblems() const { return true; } // not tested enough
 };
@@ -318,7 +320,7 @@ public:
 	virtual void OnReset( bool cold );
 	virtual void Write8PrgRom( UInt16_t offset, Byte_t data );
 
-	virtual std::string GetName() const { return "GNROM"; }
+	virtual std::wstring GetName() const { return L"GNROM"; }
 
 	virtual bool HasKnownProblems() const { return true; } // not tested enough
 };
@@ -338,7 +340,7 @@ public:
 	virtual void OnReset( bool cold );
 	virtual void Write8PrgRom( UInt16_t offset, Byte_t data );
 
-	virtual std::string GetName() const { return "Sunsoft FME-7"; }
+	virtual std::wstring GetName() const { return L"Sunsoft FME-7"; }
 
 	virtual bool HasKnownProblems() const { return true; } // not tested enough / features missing
 };
@@ -357,7 +359,7 @@ public:
 	virtual void OnReset( bool cold );
 	virtual void Write8PrgRom( UInt16_t offset, Byte_t data );
 
-	virtual std::string GetName() const { return "Irem 74HC161/32"; }
+	virtual std::wstring GetName() const { return L"Irem 74HC161/32"; }
 
 	virtual bool HasKnownProblems() const { return true; } // not tested enough
 };
@@ -1829,7 +1831,7 @@ void IMapper::Switch8kPrgBank( int id, int pos )
 
 #ifdef LOG_MAPPER_EVENTS
 	if ( Log::IsTypeEnabled( LOG_MAPPER ) )
-		Log::Write( LOG_MAPPER, ( boost::format( "PRG 8K Switch %1% %2%" ) % pos % id ).str() );
+		Log::Write( LOG_MAPPER, ( boost::wformat( L"PRG 8K Switch %1% %2%" ) % pos % id ).str() );
 #endif
 
 	this->SetPrgPage( id, pos );
@@ -1844,7 +1846,7 @@ void IMapper::Switch16kPrgBank( int id, bool low )
 
 #ifdef LOG_MAPPER_EVENTS
 	if ( Log::IsTypeEnabled( LOG_MAPPER ) )
-		Log::Write( LOG_MAPPER, ( boost::format( "PRG 16K Switch %1% %2%" ) % (low ? 0 : 2) % id ).str() );
+		Log::Write( LOG_MAPPER, ( boost::wformat( L"PRG 16K Switch %1% %2%" ) % (low ? 0 : 2) % id ).str() );
 #endif
 
 		for ( int i=0; i<2; ++i )
@@ -1861,7 +1863,7 @@ void IMapper::Switch32kPrgBank( int id )
 
 #ifdef LOG_MAPPER_EVENTS
 	if ( Log::IsTypeEnabled( LOG_MAPPER ) )
-		Log::Write( LOG_MAPPER, ( boost::format( "PRG 32K Switch %1%" ) % id ).str() );
+		Log::Write( LOG_MAPPER, ( boost::wformat( L"PRG 32K Switch %1%" ) % id ).str() );
 #endif
 
 		for ( int i=0; i<4; ++i )
@@ -1876,7 +1878,7 @@ void IMapper::Switch1kChrBank( int id, int pos )
 
 #ifdef LOG_MAPPER_EVENTS
 	if ( Log::IsTypeEnabled( LOG_MAPPER ) )
-		Log::Write( LOG_MAPPER, ( boost::format( "CHR 1K Switch %1% %2%" ) % pos % id ).str() );
+		Log::Write( LOG_MAPPER, ( boost::wformat( L"CHR 1K Switch %1% %2%" ) % pos % id ).str() );
 #endif
 
 	this->SetChrPage( id, pos );
@@ -1891,7 +1893,7 @@ void IMapper::Switch2kChrBank( int id, int pos )
 
 #ifdef LOG_MAPPER_EVENTS
 	if ( Log::IsTypeEnabled( LOG_MAPPER ) )
-		Log::Write( LOG_MAPPER, ( boost::format( "CHR 2K Switch %1% %2%" ) % pos % id ).str() );
+		Log::Write( LOG_MAPPER, ( boost::wformat( L"CHR 2K Switch %1% %2%" ) % pos % id ).str() );
 #endif
 
 		for ( int i=0; i<2; ++i )
@@ -1908,7 +1910,7 @@ void IMapper::Switch4kChrBank( int id, bool low )
 
 #ifdef LOG_MAPPER_EVENTS
 	if ( Log::IsTypeEnabled( LOG_MAPPER ) )
-		Log::Write( LOG_MAPPER, ( boost::format( "CHR 4K Switch %1% %2%" ) % (low ? 0 : 4) % id ).str() );
+		Log::Write( LOG_MAPPER, ( boost::wformat( L"CHR 4K Switch %1% %2%" ) % (low ? 0 : 4) % id ).str() );
 #endif
 
 		for ( int i=0; i<4; ++i )
@@ -1925,7 +1927,7 @@ void IMapper::Switch8kChrBank( int id )
 
 #ifdef LOG_MAPPER_EVENTS
 	if ( Log::IsTypeEnabled( LOG_MAPPER ) )
-		Log::Write( LOG_MAPPER, ( boost::format( "CHR 8K Switch %1%" ) % id ).str() );
+		Log::Write( LOG_MAPPER, ( boost::wformat( L"CHR 8K Switch %1%" ) % id ).str() );
 #endif
 
 		for ( int i=0; i<8; ++i )
@@ -1940,7 +1942,7 @@ void IMapper::UseVRAM( int numbanks )
 
 #ifdef LOG_MAPPER_EVENTS
 	if ( Log::IsTypeEnabled( LOG_MAPPER ) )
-		Log::Write( LOG_MAPPER, ( boost::format( "This cartridge has its own VRAM consisting of %1%KB of memory" ) % numbanks ).str() );
+		Log::Write( LOG_MAPPER, ( boost::wformat( L"This cartridge has its own VRAM consisting of %1%KB of memory" ) % numbanks ).str() );
 #endif
 
 	for ( int i=0; i<numbanks; ++i )

@@ -1,12 +1,13 @@
 
-#include "stdafx.h"
+
 #include "synchroniser.h"
 #include "main.h"
 #include "mainboard.h"
 #include <cassert>
 #include <algorithm>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 
+using namespace boost::placeholders;
 
 Synchroniser::Synchroniser()
 {

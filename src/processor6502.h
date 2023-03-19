@@ -138,7 +138,7 @@ class Processor6502 : public HasState
 	} mStatusRegister;
 
 private:
-	boost::signals::connection resetConnection;
+	boost::signals2::connection resetConnection;
 	CPUMemory* mMemory;
 
 	Byte_t accumulatorRegister, xRegister, yRegister, stackPointer;
@@ -161,7 +161,7 @@ private: // logging variables
 	typedef std::vector< UInt16_t > AddressList_t;
 	AddressList_t addressList; // list of previous addresses executed - used to detect loops
 	void LogProcessorMessage( UInt16_t address, Byte_t opcode, Byte_t arg1, Byte_t arg2 );
-	std::string FormatLogString( int programCounter, Byte_t opcode, Byte_t arg1, Byte_t arg2, int memval ) const;
+	std::wstring FormatLogString( int programCounter, Byte_t opcode, Byte_t arg1, Byte_t arg2, int memval ) const;
 
 public:
 	Processor6502();

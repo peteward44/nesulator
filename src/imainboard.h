@@ -13,7 +13,7 @@ class IMainBoard
 public:
 	virtual ~IMainBoard() {}
 
-	virtual void LoadCartridge( const std::string& path ) = 0 {}
+	virtual void LoadCartridge( const std::wstring& path ) = 0 {}
 	virtual ICartridge* GetCartridge() = 0 {}
 
 	virtual void DoLoop() = 0 {}
@@ -22,8 +22,8 @@ public:
 
 	virtual bool IsRunning() const = 0 {}
 
-	virtual void SaveState( const std::string& filename ) = 0 {}
-	virtual void LoadState( const std::string& filename ) = 0 {}
+	virtual void SaveState( const std::wstring& filename ) = 0 {}
+	virtual void LoadState( const std::wstring& filename ) = 0 {}
 
 	virtual IInputBus* GetInputBus() = 0 {}
 	virtual IRenderBuffer* GetRenderBuffer() = 0 {}

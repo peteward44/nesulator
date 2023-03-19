@@ -6,7 +6,8 @@
 #ifndef SOUND_QUEUE_H
 #define SOUND_QUEUE_H
 
-#include "SDL.h"
+#include "boost/cstdint.hpp"
+//#include "SDL.h"
 
 // Simple SDL sound wrapper that has a synchronous interface
 class Sound_Queue {
@@ -29,15 +30,15 @@ private:
 	enum { buf_size = 2048 };
 	enum { buf_count = 3 };
 	sample_t* volatile bufs;
-	SDL_sem* volatile free_sem;
+	//SDL_sem* volatile free_sem;
 	int volatile read_buf;
 	int write_buf;
 	int write_pos;
 	bool sound_open;
 	
 	sample_t* buf( int index );
-	void fill_buffer( Uint8*, int );
-	static void fill_buffer_( void*, Uint8*, int );
+	void fill_buffer( boost::uint8_t*, int );
+	static void fill_buffer_( void*, boost::uint8_t*, int );
 };
 
 #endif

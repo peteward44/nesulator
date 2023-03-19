@@ -16,9 +16,6 @@
     <Filter Include="ntsc">
       <UniqueIdentifier>{2f728dfe-3467-4f8d-8d53-902b03d4b48c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="snes">
-      <UniqueIdentifier>{3ab6040e-8984-423f-8f6c-55c327acfb01}</UniqueIdentifier>
-    </Filter>
     <Filter Include="nes">
       <UniqueIdentifier>{358a1ee7-72d4-48e6-beff-c1a8b4676155}</UniqueIdentifier>
     </Filter>
@@ -84,24 +81,6 @@
     <ClCompile Include="..\..\src\tinyxml\tinyxmlparser.cpp">
       <Filter>TinyXml</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\processor65C816.cpp">
-      <Filter>snes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\SnesCartridge.cpp">
-      <Filter>snes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\SnesCpuMemory.cpp">
-      <Filter>snes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\SnesMainboard.cpp">
-      <Filter>snes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\SnesPpu.cpp">
-      <Filter>snes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\SnesSynchroniser.cpp">
-      <Filter>snes</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\apu_dx.cpp">
       <Filter>nes</Filter>
     </ClCompile>
@@ -155,9 +134,6 @@
     </ClCompile>
     <ClCompile Include="..\..\src\ntsc\nes_ntsc.cpp">
       <Filter>ntsc</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\SnesPpuRender.cpp">
-      <Filter>snes</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\opcodes6502.cpp">
       <Filter>nes</Filter>
@@ -245,27 +221,6 @@
     <ClInclude Include="..\..\src\ntsc\nes_ntsc_impl.h">
       <Filter>ntsc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\opcodes65C816.h">
-      <Filter>snes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\processor65C816.h">
-      <Filter>snes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\SnesCartridge.h">
-      <Filter>snes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\SnesCpuMemory.h">
-      <Filter>snes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\SnesMainboard.h">
-      <Filter>snes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\SnesPpu.h">
-      <Filter>snes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\SnesSynchroniser.h">
-      <Filter>snes</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\apu.h">
       <Filter>nes</Filter>
     </ClInclude>
@@ -346,9 +301,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\src\processor65C816.inl">
-      <Filter>snes</Filter>
-    </None>
     <None Include="..\..\src\processor6502.inl">
       <Filter>nes</Filter>
     </None>

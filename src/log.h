@@ -39,21 +39,21 @@ public:
 	static void Open( wxWindow* parent );
 	static void Close();
 
-	static void Write( LOG_TYPE type, const std::string& message );
+	static void Write( LOG_TYPE type, const std::wstring& message );
 };
 
 
 #define PWLOG0( type, text )																																	if ( Log::IsTypeEnabled( type ) ) { Log::Write( type, text ); }
-#define PWLOG1( type, text, arg1 )																														if ( Log::IsTypeEnabled( type ) ) { Log::Write( type, ( boost::format( text ) % ( arg1 ) ).str() ); }
-#define PWLOG2( type, text, arg1, arg2 )																											if ( Log::IsTypeEnabled( type ) ) { Log::Write( type, ( boost::format( text ) % ( arg1 ) % ( arg2 ) ).str() ); }
-#define PWLOG3( type, text, arg1, arg2, arg3 )																								if ( Log::IsTypeEnabled( type ) ) { Log::Write( type, ( boost::format( text ) % ( arg1 ) % ( arg2 ) % ( arg3 ) ).str() ); }
-#define PWLOG4( type, text, arg1, arg2, arg3, arg4 )																					if ( Log::IsTypeEnabled( type ) ) { Log::Write( type, ( boost::format( text ) % ( arg1 ) % ( arg2 ) % ( arg3 ) % ( arg4 ) ).str() ); }
-#define PWLOG5( type, text, arg1, arg2, arg3, arg4, arg5 )																		if ( Log::IsTypeEnabled( type ) ) { Log::Write( type, ( boost::format( text ) % ( arg1 ) % ( arg2 ) % ( arg3 ) % ( arg4 ) % ( arg5 ) ).str() ); }
-#define PWLOG6( type, text, arg1, arg2, arg3, arg4, arg5, arg6 )															if ( Log::IsTypeEnabled( type ) ) { Log::Write( type, ( boost::format( text ) % ( arg1 ) % ( arg2 ) % ( arg3 ) % ( arg4 ) % ( arg5 ) % ( arg6 ) ).str() ); }
-#define PWLOG7( type, text, arg1, arg2, arg3, arg4, arg5, arg6, arg7 )												if ( Log::IsTypeEnabled( type ) ) { Log::Write( type, ( boost::format( text ) % ( arg1 ) % ( arg2 ) % ( arg3 ) % ( arg4 ) % ( arg5 ) % ( arg6 ) % ( arg7 ) ).str() ); }
-#define PWLOG8( type, text, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8 )									if ( Log::IsTypeEnabled( type ) ) { Log::Write( type, ( boost::format( text ) % ( arg1 ) % ( arg2 ) % ( arg3 ) % ( arg4 ) % ( arg5 ) % ( arg6 ) % ( arg7 ) % ( arg8 ) ).str() ); }
-#define PWLOG9( type, text, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9 )						if ( Log::IsTypeEnabled( type ) ) { Log::Write( type, ( boost::format( text ) % ( arg1 ) % ( arg2 ) % ( arg3 ) % ( arg4 ) % ( arg5 ) % ( arg6 ) % ( arg7 ) % ( arg8 ) % ( arg9 ) ).str() ); }
-#define PWLOG10( type, text, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10 )		if ( Log::IsTypeEnabled( type ) ) { Log::Write( type, ( boost::format( text ) % ( arg1 ) % ( arg2 ) % ( arg3 ) % ( arg4 ) % ( arg5 ) % ( arg6 ) % ( arg7 ) % ( arg8 ) % ( arg9 ) % ( arg10 ) ).str() ); }
+#define PWLOG1( type, text, arg1 )																														if ( Log::IsTypeEnabled( type ) ) { Log::Write( type, ( boost::wformat( text ) % ( arg1 ) ).str() ); }
+#define PWLOG2( type, text, arg1, arg2 )																											if ( Log::IsTypeEnabled( type ) ) { Log::Write( type, ( boost::wformat( text ) % ( arg1 ) % ( arg2 ) ).str() ); }
+#define PWLOG3( type, text, arg1, arg2, arg3 )																								if ( Log::IsTypeEnabled( type ) ) { Log::Write( type, ( boost::wformat( text ) % ( arg1 ) % ( arg2 ) % ( arg3 ) ).str() ); }
+#define PWLOG4( type, text, arg1, arg2, arg3, arg4 )																					if ( Log::IsTypeEnabled( type ) ) { Log::Write( type, ( boost::wformat( text ) % ( arg1 ) % ( arg2 ) % ( arg3 ) % ( arg4 ) ).str() ); }
+#define PWLOG5( type, text, arg1, arg2, arg3, arg4, arg5 )																		if ( Log::IsTypeEnabled( type ) ) { Log::Write( type, ( boost::wformat( text ) % ( arg1 ) % ( arg2 ) % ( arg3 ) % ( arg4 ) % ( arg5 ) ).str() ); }
+#define PWLOG6( type, text, arg1, arg2, arg3, arg4, arg5, arg6 )															if ( Log::IsTypeEnabled( type ) ) { Log::Write( type, ( boost::wformat( text ) % ( arg1 ) % ( arg2 ) % ( arg3 ) % ( arg4 ) % ( arg5 ) % ( arg6 ) ).str() ); }
+#define PWLOG7( type, text, arg1, arg2, arg3, arg4, arg5, arg6, arg7 )												if ( Log::IsTypeEnabled( type ) ) { Log::Write( type, ( boost::wformat( text ) % ( arg1 ) % ( arg2 ) % ( arg3 ) % ( arg4 ) % ( arg5 ) % ( arg6 ) % ( arg7 ) ).str() ); }
+#define PWLOG8( type, text, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8 )									if ( Log::IsTypeEnabled( type ) ) { Log::Write( type, ( boost::wformat( text ) % ( arg1 ) % ( arg2 ) % ( arg3 ) % ( arg4 ) % ( arg5 ) % ( arg6 ) % ( arg7 ) % ( arg8 ) ).str() ); }
+#define PWLOG9( type, text, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9 )						if ( Log::IsTypeEnabled( type ) ) { Log::Write( type, ( boost::wformat( text ) % ( arg1 ) % ( arg2 ) % ( arg3 ) % ( arg4 ) % ( arg5 ) % ( arg6 ) % ( arg7 ) % ( arg8 ) % ( arg9 ) ).str() ); }
+#define PWLOG10( type, text, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9, arg10 )		if ( Log::IsTypeEnabled( type ) ) { Log::Write( type, ( boost::wformat( text ) % ( arg1 ) % ( arg2 ) % ( arg3 ) % ( arg4 ) % ( arg5 ) % ( arg6 ) % ( arg7 ) % ( arg8 ) % ( arg9 ) % ( arg10 ) ).str() ); }
 
 
 

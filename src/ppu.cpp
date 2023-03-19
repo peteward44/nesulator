@@ -1,5 +1,5 @@
 
-#include "stdafx.h"
+
 #include "ppu.h"
 #include "mainboard.h"
 #include <cstdlib>
@@ -7,6 +7,7 @@
 #include <stdexcept>
 
 using namespace std;
+using namespace boost::placeholders;
 
 
 PictureProcessingUnit::PictureProcessingUnit( )
@@ -112,7 +113,7 @@ void PictureProcessingUnit::TicksToScreenCoordinates( int tickCount, int* x, int
 void PictureProcessingUnit::ChangeMirroringMethod( PPU_MIRRORING_METHOD method )
 {
 	mirroringMethod = method;
-	std::string name;
+	std::wstring name;
 
 	switch ( mirroringMethod )
 	{
@@ -120,37 +121,37 @@ void PictureProcessingUnit::ChangeMirroringMethod( PPU_MIRRORING_METHOD method )
 		case PPU_MIRROR_HORIZONTAL: // mirrors 3 & 4 point to the second nametable
 			this->nameTablePointers[ 0 ] = this->nameTablePointers[ 1 ] = &nameTables[0];
 			this->nameTablePointers[ 2 ] = this->nameTablePointers[ 3 ] = &nameTables[1];
-			name = "horizontal";
+			name = L"horizontal";
 			break;
 		case PPU_MIRROR_VERTICAL: // mirrors 2 & 4 point to the second nametable
 			this->nameTablePointers[ 0 ] = this->nameTablePointers[ 2 ] = &nameTables[0];
 			this->nameTablePointers[ 1 ] = this->nameTablePointers[ 3 ] = &nameTables[1];
-			name = "vertical";
+			name = L"vertical";
 			break;
 		case PPU_MIRROR_FOURSCREEN: // no mirroring done, requires an extra 0x800 of memory kept on cart
 			this->nameTablePointers[ 0 ] = &nameTables[0];
 			this->nameTablePointers[ 1 ] = &nameTables[1];
 			this->nameTablePointers[ 2 ] = &fsNameTables[ 0 ];
 			this->nameTablePointers[ 3 ] = &fsNameTables[ 1 ];
-			name = "four screen";
+			name = L"four screen";
 			break;
 		case PPU_MIRROR_SINGLESCREEN_NT0:
 			for ( int i=0; i<4; ++i )
 				this->nameTablePointers[ i ] = &nameTables[ 0 ];
-			name = "single screen #0";
+			name = L"single screen #0";
 			break;
 		case PPU_MIRROR_SINGLESCREEN_NT1:
 			for ( int i=0; i<4; ++i )
 				this->nameTablePointers[ i ] = &nameTables[ 1 ];
-			name = "single screen #1";
+			name = L"single screen #1";
 			break;
 		case PPU_MIRROR_CHRROM: // calls Write/Read8NameTable on the mapper
 			memset( this->nameTablePointers, 0, sizeof( NameTable_t* ) * 4 );
-			name = "CHR ROM";
+			name = L"CHR ROM";
 			break;
 	}
 
-	Log::Write( LOG_MAPPER, ( boost::format( "PPU name table memory 0x2000 -> 0x3000 now uses %1% mirroring" ) % name ).str() );
+	Log::Write( LOG_MAPPER, ( boost::wformat( L"PPU name table memory 0x2000 -> 0x3000 now uses %1% mirroring" ) % name ).str() );
 }
 
 
@@ -231,7 +232,7 @@ void PictureProcessingUnit::WriteToRegister( UInt16_t offset, Byte_t data )
 			g_nesMainboard->GetSynchroniser()->Synchronise();
 			const bool renderingEnabledChanged = ( ( (*control2) & 0x18 ) > 0 ) != ( ( data & 0x18 ) > 0 );
 			*control2 = data;
-			Log::Write( LOG_MISC, ( boost::format( "control2 changed to %1%" ) % int(data) ).str() );
+			Log::Write( LOG_MISC, ( boost::wformat( L"control2 changed to %1%" ) % int(data) ).str() );
 			if ( renderingEnabledChanged )
 				g_nesMainboard->GetMemoryMapper()->RenderingEnabledChanged( ( (*control2) & 0x18 ) > 0 );
 		}
@@ -673,7 +674,7 @@ void PictureProcessingUnit::Synchronise( int syncMTC )
 #ifdef LOG_PPU_EVENTS
 			if ( Log::IsTypeEnabled( LOG_PPU ) )
 			{
-				Log::Write( LOG_PPU, "VBlank cleared - rendering period started" );
+				Log::Write( LOG_PPU, L"VBlank cleared - rendering period started" );
 			}
 #endif
 		}
@@ -736,7 +737,7 @@ void PictureProcessingUnit::OnEndFrame()
 #ifdef LOG_PPU_EVENTS
 	if ( Log::IsTypeEnabled( LOG_PPU ) )
 	{
-		Log::Write( LOG_PPU, "VBlank set - Frame finished" );
+		Log::Write( LOG_PPU, L"VBlank set - Frame finished" );
 	}
 #endif
 

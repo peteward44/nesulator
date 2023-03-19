@@ -97,7 +97,7 @@ enum FUNCTION_TYPE
 struct Instruction6502
 {
 	Byte_t mOpcode;
-	std::string mName;
+	std::wstring mName;
 	Byte_t mSize;
 	Byte_t mAddressingMode;
 	Byte_t mBaseCycles;

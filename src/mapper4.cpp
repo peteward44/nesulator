@@ -1,5 +1,6 @@
 
-#include "stdafx.h"
+#include "main.h"
+#include "mainboard.h"
 #include "mapper4.h"
 
 
@@ -72,7 +73,7 @@ void Mapper4::DecrementIrqCounter( int tickCount, bool fromRegisterWrite )
 			int x = 0, y = 0;
 			g_nesMainboard->GetPPU()->TicksToScreenCoordinates( g_nesMainboard->GetSynchroniser()->GetCpuMTC(), &x, &y );
 			if ( Log::IsTypeEnabled( LOG_MAPPER ) )
-				Log::Write( LOG_MAPPER, ( boost::format( "IRQ counter decremented '%3%' %1%x%2% (%4%)" ) % x % y % (int)irqCounter % ( fromRegisterWrite ? "A12" : "SL" ) ).str() );
+				Log::Write( LOG_MAPPER, ( boost::wformat( L"IRQ counter decremented '%3%' %1%x%2% (%4%)" ) % x % y % (int)irqCounter % ( fromRegisterWrite ? "A12" : "SL" ) ).str() );
 		#endif
 
 		if ( irqCounter > 0 )
@@ -84,7 +85,7 @@ void Mapper4::DecrementIrqCounter( int tickCount, bool fromRegisterWrite )
 			int x = 0, y = 0;
 			g_nesMainboard->GetPPU()->TicksToScreenCoordinates( g_nesMainboard->GetSynchroniser()->GetCpuMTC(), &x, &y );
 			if ( Log::IsTypeEnabled( LOG_MAPPER ) )
-				Log::Write( LOG_MAPPER, ( boost::format( "IRQ triggered coords %1%x%2% (%3%)" ) % x % y % ( fromRegisterWrite ? "A12" : "SL" ) ).str() );
+				Log::Write( LOG_MAPPER, ( boost::wformat( L"IRQ triggered coords %1%x%2% (%3%)" ) % x % y % ( fromRegisterWrite ? "A12" : "SL" ) ).str() );
 		#endif
 
 			if ( interruptsEnabled )
@@ -310,7 +311,7 @@ void Mapper4::Write8PrgRom( UInt16_t offset, Byte_t data )
 
 			#ifdef LOG_MAPPER_EVENTS
 				if ( Log::IsTypeEnabled( LOG_MAPPER ) )
-					Log::Write( LOG_MAPPER, ( boost::format( "Interrupts disabled on mapper" ) ).str() );
+					Log::Write( LOG_MAPPER, ( boost::wformat( L"Interrupts disabled on mapper" ) ).str() );
 			#endif
 		}
 		else
@@ -319,7 +320,7 @@ void Mapper4::Write8PrgRom( UInt16_t offset, Byte_t data )
 
 			#ifdef LOG_MAPPER_EVENTS
 				if ( Log::IsTypeEnabled( LOG_MAPPER ) )
-					Log::Write( LOG_MAPPER, ( boost::format( "Interrupts enabled on mapper" ) ).str() );
+					Log::Write( LOG_MAPPER, ( boost::wformat( L"Interrupts enabled on mapper" ) ).str() );
 			#endif
 		}
 	}

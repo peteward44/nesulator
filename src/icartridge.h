@@ -9,7 +9,7 @@ public:
 	virtual ~ICartridge() {}
 
 	virtual unsigned int GetCRC32() const = 0 {}
-	virtual std::string GetName() const = 0 {}
+	virtual std::wstring GetName() const = 0 {}
 	
 };
 

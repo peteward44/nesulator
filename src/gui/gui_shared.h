@@ -27,12 +27,12 @@
 //
 //#else
 
-#pragma comment(lib, "wxzlib.lib")
-#pragma comment(lib, "wxregex.lib")
+//#pragma comment(lib, "wxzlib.lib")
+//#pragma comment(lib, "wxregex.lib")
 
-#pragma comment(lib, "wxbase28.lib")
-#pragma comment(lib, "wxmsw28_gl.lib")
-#pragma comment(lib, "wxmsw28_core.lib")
+//#pragma comment(lib, "wxbase28.lib")
+//#pragma comment(lib, "wxmsw28_gl.lib")
+//#pragma comment(lib, "wxmsw28_core.lib")
 
 //#endif
 

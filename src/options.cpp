@@ -1,5 +1,6 @@
 
-#include "stdafx.h"
+
+#include "main.h"
 #include "gui/app.h"
 #include "main.h"
 #include "options.h"
@@ -26,8 +27,8 @@ Options::Options()
 	WindowWidth = 512;
 	WindowHeight = 480;
 
-	SaveStatesDirectory = NesulatorApp::GetApplicationPathWithSep() + "savestates";
-	ScreenshotsDirectory = NesulatorApp::GetApplicationPathWithSep() + "screenshots";
+	SaveStatesDirectory = NesulatorApp::GetApplicationPathWithSep() + L"savestates";
+	ScreenshotsDirectory = NesulatorApp::GetApplicationPathWithSep() + L"screenshots";
 
 	JoypadKeyMap& keymap = GetJoypadKeyMap( 0 );
 
@@ -53,169 +54,169 @@ Options::Options()
 }
 
 
-void Options::LoadFromFile( const std::string& filename )
+void Options::LoadFromFile( const std::wstring& filename )
 {
-	TiXmlDocument doc;
+	//TiXmlDocument doc;
 
-	if ( !doc.LoadFile( filename.c_str() ) )
-		return;
+	//if ( !doc.LoadFile( filename.c_str() ) )
+	//	return;
 
-	for( TiXmlNode* node = doc.FirstChild(); node != NULL; node = node->NextSibling() )
-	{
-		TiXmlElement* element = node->ToElement();
-		if ( element != NULL )
-		{
-			const char* name = element->Value();
-			if ( _stricmp( name, "Sound" ) == 0 )
-			{
-				int enabled = 0;
-				element->QueryIntAttribute( "Enabled", &enabled );
-				SoundEnabled = enabled > 0;
-				element->QueryIntAttribute( "Volume", &SoundVolume );
-			}
-			else if ( _stricmp( name, "Window" ) == 0 )
-			{
-				element->QueryIntAttribute( "Width", &WindowWidth );
-				element->QueryIntAttribute( "Height", &WindowHeight );
-			}
-			else if ( _stricmp( name, "KeyMap" ) == 0 )
-			{
-				int port = 0;
-				element->QueryIntAttribute( "Port", &port );
+	//for( TiXmlNode* node = doc.FirstChild(); node != NULL; node = node->NextSibling() )
+	//{
+	//	TiXmlElement* element = node->ToElement();
+	//	if ( element != NULL )
+	//	{
+	//		const char* name = element->Value();
+	//		if ( _stricmp( name, "Sound" ) == 0 )
+	//		{
+	//			int enabled = 0;
+	//			element->QueryIntAttribute( "Enabled", &enabled );
+	//			SoundEnabled = enabled > 0;
+	//			element->QueryIntAttribute( "Volume", &SoundVolume );
+	//		}
+	//		else if ( _stricmp( name, "Window" ) == 0 )
+	//		{
+	//			element->QueryIntAttribute( "Width", &WindowWidth );
+	//			element->QueryIntAttribute( "Height", &WindowHeight );
+	//		}
+	//		else if ( _stricmp( name, "KeyMap" ) == 0 )
+	//		{
+	//			int port = 0;
+	//			element->QueryIntAttribute( "Port", &port );
 
-				JoypadKeyMap& keymap = GetJoypadKeyMap( port );
+	//			JoypadKeyMap& keymap = GetJoypadKeyMap( port );
 
-				for ( int button=0; button<JS_BUTTON_COUNT; ++button )
-				{
-					char* buttonName = NULL;
-					switch ( button )
-					{
-						case JS_A:
-							buttonName = "A";
-							break;
-						case JS_B:
-							buttonName = "B";
-							break;
-						case JS_SELECT:
-							buttonName = "Select";
-							break;
-						case JS_START:
-							buttonName = "Start";
-							break;
-						case JS_UP:
-							buttonName = "Up";
-							break;
-						case JS_DOWN:
-							buttonName = "Down";
-							break;
-						case JS_LEFT:
-							buttonName = "Left";
-							break;
-						case JS_RIGHT:
-							buttonName = "Right";
-							break;
-					}
+	//			for ( int button=0; button<JS_BUTTON_COUNT; ++button )
+	//			{
+	//				char* buttonName = NULL;
+	//				switch ( button )
+	//				{
+	//					case JS_A:
+	//						buttonName = "A";
+	//						break;
+	//					case JS_B:
+	//						buttonName = "B";
+	//						break;
+	//					case JS_SELECT:
+	//						buttonName = "Select";
+	//						break;
+	//					case JS_START:
+	//						buttonName = "Start";
+	//						break;
+	//					case JS_UP:
+	//						buttonName = "Up";
+	//						break;
+	//					case JS_DOWN:
+	//						buttonName = "Down";
+	//						break;
+	//					case JS_LEFT:
+	//						buttonName = "Left";
+	//						break;
+	//					case JS_RIGHT:
+	//						buttonName = "Right";
+	//						break;
+	//				}
 
-					if ( buttonName != NULL )
-					{
-						int keyCode = -1;
-						element->QueryIntAttribute( buttonName, &keyCode );
-						keymap.SetKey( keyCode, (JOYSTICK_BUTTON)button );
-					}
-				}
-			}
-			else if ( _stricmp( name, "Device" ) == 0 )
-			{
-				int port = 0;
-				element->QueryIntAttribute( "Port", &port );
+	//				if ( buttonName != NULL )
+	//				{
+	//					int keyCode = -1;
+	//					element->QueryIntAttribute( buttonName, &keyCode );
+	//					keymap.SetKey( keyCode, (JOYSTICK_BUTTON)button );
+	//				}
+	//			}
+	//		}
+	//		else if ( _stricmp( name, "Device" ) == 0 )
+	//		{
+	//			int port = 0;
+	//			element->QueryIntAttribute( "Port", &port );
 
-				int deviceType = 0;
-				element->QueryIntAttribute( "Type", &deviceType );
+	//			int deviceType = 0;
+	//			element->QueryIntAttribute( "Type", &deviceType );
 
-				inputDevices[ port ] = (INPUT_DEVICE)deviceType;
-			}
-			else if ( _stricmp( name, "Directories" ) == 0 )
-			{
-				const char* ss = element->Attribute( "SaveStates" );
-				if ( ss != NULL )
-					SaveStatesDirectory = ss;
+	//			inputDevices[ port ] = (INPUT_DEVICE)deviceType;
+	//		}
+	//		else if ( _stricmp( name, "Directories" ) == 0 )
+	//		{
+	//			const char* ss = element->Attribute( "SaveStates" );
+	//			if ( ss != NULL )
+	//				SaveStatesDirectory = ss;
 
-				const char* ss2 = element->Attribute( "Screenshots" );
-				if ( ss2 != NULL )
-					ScreenshotsDirectory = ss2;
-			}
-			else if ( _stricmp( name, "Video" ) == 0 )
-			{
-				int allowMoreSprites = 0;
-				element->QueryIntAttribute( "AllowMoreThanEightSprites", &allowMoreSprites );
-				AllowMoreThanEightSprites = allowMoreSprites > 0;
+	//			const char* ss2 = element->Attribute( "Screenshots" );
+	//			if ( ss2 != NULL )
+	//				ScreenshotsDirectory = ss2;
+	//		}
+	//		else if ( _stricmp( name, "Video" ) == 0 )
+	//		{
+	//			int allowMoreSprites = 0;
+	//			element->QueryIntAttribute( "AllowMoreThanEightSprites", &allowMoreSprites );
+	//			AllowMoreThanEightSprites = allowMoreSprites > 0;
 
-				int ntscFiltering = 0;
-				element->QueryIntAttribute( "UseNtscFiltering", &ntscFiltering );
-				UseNtscFiltering = ntscFiltering > 0;
-			}
-		}
-	}
+	//			int ntscFiltering = 0;
+	//			element->QueryIntAttribute( "UseNtscFiltering", &ntscFiltering );
+	//			UseNtscFiltering = ntscFiltering > 0;
+	//		}
+	//	}
+	//}
 }
 
 
-void Options::SaveToFile( const std::string& filename )
+void Options::SaveToFile( const std::wstring& filename )
 {
-	TiXmlDocument doc;
-	TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "", "" );
-	doc.LinkEndChild( decl );
-	
-	TiXmlElement* soundElement = new TiXmlElement( "Sound" );
-	soundElement->SetAttribute( "Enabled", SoundEnabled ? 1 : 0 );
-	soundElement->SetAttribute( "Volume", SoundVolume );
-	doc.LinkEndChild( soundElement );
-	
-	TiXmlElement* windowElement = new TiXmlElement( "Window" );
-	windowElement->SetAttribute( "Width", WindowWidth );
-	windowElement->SetAttribute( "Height", WindowHeight );
-	doc.LinkEndChild( windowElement );
+	//TiXmlDocument doc;
+	//TiXmlDeclaration* decl = new TiXmlDeclaration( "1.0", "", "" );
+	//doc.LinkEndChild( decl );
+	//
+	//TiXmlElement* soundElement = new TiXmlElement( "Sound" );
+	//soundElement->SetAttribute( "Enabled", SoundEnabled ? 1 : 0 );
+	//soundElement->SetAttribute( "Volume", SoundVolume );
+	//doc.LinkEndChild( soundElement );
+	//
+	//TiXmlElement* windowElement = new TiXmlElement( "Window" );
+	//windowElement->SetAttribute( "Width", WindowWidth );
+	//windowElement->SetAttribute( "Height", WindowHeight );
+	//doc.LinkEndChild( windowElement );
 
-	for ( int i=0; i<2; ++i )
-	{
-		TiXmlElement* keymapElement = new TiXmlElement( "KeyMap" );
+	//for ( int i=0; i<2; ++i )
+	//{
+	//	TiXmlElement* keymapElement = new TiXmlElement( "KeyMap" );
 
-		keymapElement->SetAttribute( "Port", i );
+	//	keymapElement->SetAttribute( "Port", i );
 
-		JoypadKeyMap& keymap = GetJoypadKeyMap( i );
+	//	JoypadKeyMap& keymap = GetJoypadKeyMap( i );
 
-		keymapElement->SetAttribute( "Start", keymap.ButtonToKeyCode( JS_START ) );
-		keymapElement->SetAttribute( "Select", keymap.ButtonToKeyCode( JS_SELECT ) );
-		keymapElement->SetAttribute( "A", keymap.ButtonToKeyCode( JS_A ) );
-		keymapElement->SetAttribute( "B", keymap.ButtonToKeyCode( JS_B ) );
-		keymapElement->SetAttribute( "Up", keymap.ButtonToKeyCode( JS_UP ) );
-		keymapElement->SetAttribute( "Down", keymap.ButtonToKeyCode( JS_DOWN ) );
-		keymapElement->SetAttribute( "Left", keymap.ButtonToKeyCode( JS_LEFT ) );
-		keymapElement->SetAttribute( "Right", keymap.ButtonToKeyCode( JS_RIGHT ) );
-		
-		doc.LinkEndChild( keymapElement );
-	}
+	//	keymapElement->SetAttribute( "Start", keymap.ButtonToKeyCode( JS_START ) );
+	//	keymapElement->SetAttribute( "Select", keymap.ButtonToKeyCode( JS_SELECT ) );
+	//	keymapElement->SetAttribute( "A", keymap.ButtonToKeyCode( JS_A ) );
+	//	keymapElement->SetAttribute( "B", keymap.ButtonToKeyCode( JS_B ) );
+	//	keymapElement->SetAttribute( "Up", keymap.ButtonToKeyCode( JS_UP ) );
+	//	keymapElement->SetAttribute( "Down", keymap.ButtonToKeyCode( JS_DOWN ) );
+	//	keymapElement->SetAttribute( "Left", keymap.ButtonToKeyCode( JS_LEFT ) );
+	//	keymapElement->SetAttribute( "Right", keymap.ButtonToKeyCode( JS_RIGHT ) );
+	//	
+	//	doc.LinkEndChild( keymapElement );
+	//}
 
-	for ( int i=0; i<2; ++i )
-	{
-		TiXmlElement* deviceElement = new TiXmlElement( "Device" );
+	//for ( int i=0; i<2; ++i )
+	//{
+	//	TiXmlElement* deviceElement = new TiXmlElement( "Device" );
 
-		deviceElement->SetAttribute( "Port", i );
-		deviceElement->SetAttribute( "Type", inputDevices[i] );
-		
-		doc.LinkEndChild( deviceElement );
-	}
+	//	deviceElement->SetAttribute( "Port", i );
+	//	deviceElement->SetAttribute( "Type", inputDevices[i] );
+	//	
+	//	doc.LinkEndChild( deviceElement );
+	//}
 
-	TiXmlElement* dirElement = new TiXmlElement( "Directories" );
-	dirElement->SetAttribute( "SaveStates", SaveStatesDirectory.c_str() );
-	dirElement->SetAttribute( "Screenshots", ScreenshotsDirectory.c_str() );
-	doc.LinkEndChild( dirElement );
+	//TiXmlElement* dirElement = new TiXmlElement( "Directories" );
+	//dirElement->SetAttribute( L"SaveStates", SaveStatesDirectory.c_str() );
+	//dirElement->SetAttribute( L"Screenshots", ScreenshotsDirectory.c_str() );
+	//doc.LinkEndChild( dirElement );
 
-	TiXmlElement* videoElement = new TiXmlElement( "Video" );
-	videoElement->SetAttribute( "AllowMoreThanEightSprites", AllowMoreThanEightSprites ? 1 : 0 );
-	videoElement->SetAttribute( "UseNtscFiltering", UseNtscFiltering ? 1 : 0 );
-	doc.LinkEndChild( videoElement );
+	//TiXmlElement* videoElement = new TiXmlElement( "Video" );
+	//videoElement->SetAttribute( "AllowMoreThanEightSprites", AllowMoreThanEightSprites ? 1 : 0 );
+	//videoElement->SetAttribute( "UseNtscFiltering", UseNtscFiltering ? 1 : 0 );
+	//doc.LinkEndChild( videoElement );
 
-	doc.SaveFile( filename.c_str() );
+	//doc.SaveFile( filename.c_str() );
 }
 
 

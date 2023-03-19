@@ -1,7 +1,7 @@
 
 // Blip_Buffer 0.3.3. http://www.slack.net/~ant/libs/
 
-#include "stdafx.h"
+
 #include "Multi_Buffer.h"
 
 /* Copyright (C) 2003-2005 Shay Green. This module is free software; you

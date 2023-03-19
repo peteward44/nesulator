@@ -1,5 +1,5 @@
 
-#include "stdafx.h"
+
 #include "main.h"
 #include "renderbuffer.h"
 #include "mainboard.h"

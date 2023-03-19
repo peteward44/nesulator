@@ -17,7 +17,7 @@ private:
 
 
 public:
-	GLCanvas( wxWindow* parent, long style, int* attribList );
+	GLCanvas(wxWindow* parent, long style, const wxGLAttributes& attribList);
 	virtual ~GLCanvas();
 
 	void SyncWithOptions();

@@ -15,8 +15,8 @@
 #include "boost/shared_ptr.hpp"
 #include "boost/utility.hpp"
 #include "boost/cstdint.hpp"
-#include "boost/signal.hpp"
-#include "boost/bind.hpp"
+#include "boost/signals2.hpp"
+#include <boost/bind/bind.hpp>
 
 #include "log.h"
 #include "wx/log.h"
@@ -53,8 +53,8 @@ typedef unsigned char UInt8_t;
 typedef unsigned short UInt16_t;
 typedef unsigned int UInt32_t;
 
-extern const char* APP_NAME;
-extern const char* APP_VERSION_STRING;
+extern const wchar_t* APP_NAME;
+extern const wchar_t* APP_VERSION_STRING;
 
 const int PPU_TICKS_PER_SCANLINE = 341;
 const int MASTER_CYCLES_PER_PPU = 5;
@@ -165,7 +165,7 @@ enum TERRITORY_MODE
 };
 
 extern unsigned long CalculateCRC32( unsigned char *data, unsigned long datalen );
-extern unsigned long CalculateCRC32( const std::string& filename );
+extern unsigned long CalculateCRC32( const std::wstring& filename );
 
 
 class HasState

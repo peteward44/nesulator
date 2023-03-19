@@ -1,13 +1,12 @@
 
-#include "stdafx.h"
+#include "../main.h"
 #include "app.h"
 
-#include "../SnesMainboard.h"
 #include "../mainboard.h"
 
 #include "wx/evtloop.h"
 #include "wx/filename.h"
-#include "boost/bind.hpp"
+#include <boost/bind/bind.hpp>
 
 
 IMainBoard* g_activeMainboard = NULL;
@@ -51,17 +50,17 @@ void NesulatorApp::DisplayError( const std::string& error )
 }
 
 
-std::string NesulatorApp::GetApplicationPathWithSep()
+std::wstring NesulatorApp::GetApplicationPathWithSep()
 {
 	wxFileName path( wxTheApp->argv[0] );
 	path.MakeAbsolute();
-	return path.GetPathWithSep().c_str();
+	return path.GetPathWithSep().ToStdWstring();
 }
 
 
-std::string NesulatorApp::GetConfigFilename()
+std::wstring NesulatorApp::GetConfigFilename()
 {
-	return ( boost::format( "%1%%2%" ) % GetApplicationPathWithSep().c_str() % "config.xml" ).str();
+	return ( boost::wformat( L"%1%%2%" ) % GetApplicationPathWithSep() % L"config.xml" ).str();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -85,17 +84,14 @@ bool NesulatorApp::OnInit()
 {
 	try
 	{
-		if ( SDL_Init( SDL_INIT_AUDIO ) < 0 )
-			return false;
+		//if ( SDL_Init( SDL_INIT_AUDIO ) < 0 )
+		//	return false;
 
 		g_options = new Options();
 		g_options->LoadFromFile( GetConfigFilename() );
 
 		g_nesMainboard = new MainBoard( this );
 		g_nesMainboard->CreateComponents();
-
-		g_snesMainboard = new SnesMainboard( this );
-		g_snesMainboard->CreateComponents();
 
 		mainFrame = new MainFrame( g_options->WindowWidth, g_options->WindowHeight );
 
@@ -126,13 +122,6 @@ int NesulatorApp::OnExit()
 			g_nesMainboard = NULL;
 		}
 
-		if ( g_snesMainboard != NULL )
-		{
-			g_snesMainboard->Shutdown();
-			delete g_snesMainboard;
-			g_snesMainboard = NULL;
-		}
-
 		if ( g_options != NULL )
 		{
 			g_options->SaveToFile( GetConfigFilename() );
@@ -140,7 +129,7 @@ int NesulatorApp::OnExit()
 			g_options = NULL;
 		}
 		
-		SDL_Quit();
+		//SDL_Quit();
 		Log::Close();
 	}
 	catch ( std::exception& e )
@@ -267,13 +256,13 @@ void NesulatorApp::OnStopRunning( IMainBoard* mainBoard )
 }
 
 
-void NesulatorApp::LoadRomFile( const std::string& filename )
+void NesulatorApp::LoadRomFile( const std::wstring& filename )
 {
 	try
 	{
 		size_t indexPos = filename.find_last_of( '.' );
 		if ( indexPos == std::string::npos )
-			throw std::runtime_error( ( boost::format( "Invalid file extension for file '%1%'" ) % filename ).str() );
+			throw std::runtime_error( "Invalid file extension for file" );
 
 		std::string extension;
 		std::transform( filename.begin() + indexPos + 1, filename.end(), std::back_inserter( extension ), tolower );
@@ -284,12 +273,8 @@ void NesulatorApp::LoadRomFile( const std::string& filename )
 		{
 			mainboard = g_nesMainboard;
 		}
-		else if ( extension == "smc" )
-		{
-			mainboard = g_snesMainboard;
-		}
 		else
-			throw std::runtime_error( ( boost::format( "Invalid file extension for file '%1%'" ) % filename ).str() );
+			throw std::runtime_error( "Invalid file extension for file" );
 
 		assert( mainboard != NULL );
 

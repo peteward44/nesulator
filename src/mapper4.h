@@ -45,7 +45,7 @@ public:
 	virtual void OnSaveState( std::ostream& ostr );
 	virtual void OnLoadState( std::istream& istr );
 
-	virtual std::string GetName() const { return "Nintendo MMC3"; }
+	virtual std::wstring GetName() const { return L"Nintendo MMC3"; }
 
 	virtual void PPUA12Latch();
 	virtual void RenderingEnabledChanged( bool enabled );

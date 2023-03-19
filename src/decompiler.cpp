@@ -1,5 +1,6 @@
 
-#include "stdafx.h"
+
+#include "main.h"
 #include "decompiler.h"
 #include "mainboard.h"
 #include <sstream>
@@ -12,15 +13,15 @@ Decompiler::Decompiler()
 }
 
 
-std::string Decompiler::GenerateLabelName()
+std::wstring Decompiler::GenerateLabelName()
 {
-	std::stringstream ss;
-	ss << "label_" << ++labelnum;
+	std::wstringstream ss;
+	ss << L"label_" << ++labelnum;
 	return ss.str();
 }
 
 
-void Decompiler::Save( const std::string& romFile, const std::string& outputFile )
+void Decompiler::Save( const std::wstring& romFile, const std::wstring& outputFile )
 {
 	labelnum = 0;
 
@@ -29,7 +30,7 @@ void Decompiler::Save( const std::string& romFile, const std::string& outputFile
 
 	UInt16_t resetAddress = MAKE_WORD( cart->GetMemoryMapper()->Read8PrgRom( 0xFFFC ), cart->GetMemoryMapper()->Read8PrgRom( 0xFFFC + 1 ) );
 
-	DecompileFunction( cart, "reset", resetAddress );
+	DecompileFunction( cart, L"reset", resetAddress );
 
 	out.open( outputFile.c_str() );
 
@@ -42,18 +43,18 @@ void Decompiler::Save( const std::string& romFile, const std::string& outputFile
 		LabelMap_t::iterator findit;
 		if ( ( findit = labels.find( address ) ) != labels.end() )
 		{ // print label
-			out << findit->second << ":" << std::endl;
+			out << findit->second << L":" << std::endl;
 		}
 
 		// print instruction
-		out << "\t" << it->second;
+		out << L"\t" << it->second;
 	}
 
 	out.close();
 }
 
 
-void Decompiler::DecompileFunction( CartridgePtr_t cart, const std::string& label, UInt16_t address )
+void Decompiler::DecompileFunction( CartridgePtr_t cart, const std::wstring& label, UInt16_t address )
 {
 	if ( address < 0x8000 )
 		return;

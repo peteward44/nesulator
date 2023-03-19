@@ -1,7 +1,7 @@
 
 // Blip_Buffer 0.3.3. http://www.slack.net/~ant/libs/
 
-#include "stdafx.h"
+
 #include "Blip_Buffer.h"
 
 #include <string.h>

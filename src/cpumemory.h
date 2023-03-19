@@ -42,7 +42,7 @@ typedef Page< 0x800, 0x0 > RAMPage_t;
 class CPUMemory : public HasState
 {
 private:
-	boost::signals::connection resetConnection;
+	boost::signals2::connection resetConnection;
 	RAMPage_t ramPage; // RAM (0x0000 -> 0x4000) 0x800 x4 *all mirrored*
 
 public:

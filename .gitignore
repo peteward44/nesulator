@@ -1,0 +1,6 @@
+/build/temp
+/build/x64
+/build/.vs
+/build/Nesulator/log.txt
+/build/Nesulator/Nesulator.vcxproj.user
+/build/Nesulator/x64

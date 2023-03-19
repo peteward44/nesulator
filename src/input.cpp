@@ -1,5 +1,5 @@
 
-#include "stdafx.h"
+
 #include "mainboard.h"
 #include "options.h"
 #include "gui/app.h"
@@ -366,7 +366,7 @@ InputDevicePtr_t CreateInputDevice( INPUT_DEVICE device )
 	case INPUT_NONE:
 		return InputDevicePtr_t( new NullDevice() );
 	default:
-		Log::Write( LOG_ERROR, ( boost::format( "Invalid input device attempted to be created: %1%" ) % device ).str() );
+		Log::Write( LOG_ERROR, ( boost::wformat( L"Invalid input device attempted to be created: %1%" ) % device ).str() );
 		throw std::runtime_error( "Invalid input device" );
 	}
 }

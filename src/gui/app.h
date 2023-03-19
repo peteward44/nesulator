@@ -7,6 +7,7 @@
 #include "../MainboardCallback.h"
 #include "../input.h"
 #include "mainframe.h"
+#include "boost/signals2.hpp"
 
 extern IMainBoard* g_activeMainboard;
 
@@ -18,17 +19,17 @@ private:
 	wxStopWatch stopWatch;
 	bool mQuitNow;
 
-	boost::signal1< void, IMainBoard* > ReadyState;
+	boost::signals2::signal< void (IMainBoard*) > ReadyState;
 
 public:
 	static void DisplayError( const std::string& error );
-	static std::string GetApplicationPathWithSep();
-	static std::string GetConfigFilename();
+	static std::wstring GetApplicationPathWithSep();
+	static std::wstring GetConfigFilename();
 
 
 	NesulatorApp();
 
-	void LoadRomFile( const std::string& filename );
+	void LoadRomFile( const std::wstring& filename );
 
 	void StartShutdown();
 

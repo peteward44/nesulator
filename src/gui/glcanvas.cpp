@@ -1,5 +1,6 @@
 
-#include "stdafx.h"
+
+#include "../main.h"
 #include "app.h"
 #include "glcanvas.h"
 #include "../mainboard.h"
@@ -18,9 +19,8 @@ BEGIN_EVENT_TABLE(GLCanvas, wxGLCanvas)
 
 END_EVENT_TABLE()
 
-
-GLCanvas::GLCanvas( wxWindow* parent, long style, int* attribList )
-	: wxGLCanvas( parent, -1, wxDefaultPosition, wxDefaultSize, style, "GLCanvas", attribList)
+GLCanvas::GLCanvas( wxWindow* parent, long style, const wxGLAttributes& attribList )
+	: wxGLCanvas( parent, attribList, -1, wxDefaultPosition, wxDefaultSize, style, "GLCanvas", wxNullPalette)
 {
 	mAttachedRenderBuffer = NULL;
 	zoomx = zoomy = 1.0f;
@@ -114,7 +114,7 @@ void GLCanvas::Render()
 {
 	if ( GetParent()->IsShown() && mAttachedRenderBuffer != NULL )
 	{
-		SetCurrent();
+		//SetCurrent();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glClearColor( 0.0f, 0.0f, 0.0f, 1.0f);
 

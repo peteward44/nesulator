@@ -30,7 +30,7 @@ public:
 class Synchroniser : public HasState
 {
 private:
-	boost::signals::connection resetConnection;
+	boost::signals2::connection resetConnection;
 
 	Synchronisable* objects[ SYNC_COUNT ];
 

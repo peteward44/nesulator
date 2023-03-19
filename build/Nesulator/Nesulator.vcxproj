@@ -30,30 +30,40 @@
     <ProjectGuid>{5DBEC155-71DF-4319-85F3-B9061E3EA9B5}</ProjectGuid>
     <RootNamespace>Nesulator</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release 64|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release 64|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -61,23 +71,29 @@
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release 64|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+    <Import Project="..\..\..\..\wxWidgets-3.2.2.1\wxwidgets.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+    <Import Project="..\..\..\..\wxWidgets-3.2.2.1\wxwidgets.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+    <Import Project="..\..\..\..\wxWidgets-3.2.2.1\wxwidgets.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release 64|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\..\wxWidgets-3.2.2.1\wxwidgets.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\..\wxWidgets-3.2.2.1\wxwidgets.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\..\..\..\wxWidgets-3.2.2.1\wxwidgets.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
@@ -119,6 +135,21 @@
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)_Debug</TargetName>
     <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</EmbedManifest>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</GenerateManifest>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>C:\personal\boost_1_81_0;C:\wxWidgets-3.2.2.1\include\msvc;C:\wxWidgets-3.2.2.1\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>C:\local\boost_1_81_0\lib64-msvc-14.3;C:\wxWidgets-3.2.2.1\lib;$(LibraryPath)</LibraryPath>
+    <ExternalIncludePath>C:\personal\boost_1_81_0;C:\wxWidgets-3.2.2.1\include\msvc;C:\wxWidgets-3.2.2.1\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</ExternalIncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>C:\personal\boost_1_81_0;C:\wxWidgets-3.2.2.1\include\msvc;C:\wxWidgets-3.2.2.1\include;C:\personal\SDL2-devel-2.26.4-VC\SDL2-2.26.4\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>C:\local\boost_1_81_0\lib64-msvc-14.3;C:\wxWidgets-3.2.2.1\lib;$(LibraryPath)</LibraryPath>
+    <ExternalIncludePath>C:\personal\boost_1_81_0;C:\wxWidgets-3.2.2.1\include\msvc;C:\wxWidgets-3.2.2.1\include;C:\personal\SDL2-devel-2.26.4-VC\SDL2-2.26.4\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</ExternalIncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release 64|x64'">
+    <IncludePath>C:\personal\boost_1_81_0;C:\wxWidgets-3.2.2.1\include\msvc;C:\wxWidgets-3.2.2.1\include;C:\personal\SDL2-devel-2.26.4-VC\SDL2-2.26.4\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>C:\local\boost_1_81_0\lib64-msvc-14.3;C:\wxWidgets-3.2.2.1\lib;$(LibraryPath)</LibraryPath>
+    <ExternalIncludePath>C:\personal\boost_1_81_0;C:\wxWidgets-3.2.2.1\include\msvc;C:\wxWidgets-3.2.2.1\include;C:\personal\SDL2-devel-2.26.4-VC\SDL2-2.26.4\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -197,6 +228,25 @@
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories);$(ProjectDir)..\..\externals\boost\1_52\lib;$(ProjectDir)..\..\externals\wxwidgets-2.8.11\lib\vc_lib;$(ProjectDir)..\..\externals\SDL-1.2.13\lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>_UNICODE;UNICODE;WXUSINGDLL</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>_UNICODE;UNICODE;WXUSINGDLL</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release 64|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>_UNICODE;UNICODE;WXUSINGDLL</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\APU\Simple_Apu.cpp" />
     <ClCompile Include="..\..\src\APU\Sound_Queue.cpp" />
@@ -216,7 +266,6 @@
     <ClCompile Include="..\..\src\mapper4.cpp" />
     <ClCompile Include="..\..\src\ntsc\nes_ntsc.cpp" />
     <ClCompile Include="..\..\src\opcodes6502.cpp" />
-    <ClCompile Include="..\..\src\SnesPpuRender.cpp" />
     <ClCompile Include="..\..\src\stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -225,12 +274,6 @@
     <ClCompile Include="..\..\src\tinyxml\tinyxml.cpp" />
     <ClCompile Include="..\..\src\tinyxml\tinyxmlerror.cpp" />
     <ClCompile Include="..\..\src\tinyxml\tinyxmlparser.cpp" />
-    <ClCompile Include="..\..\src\processor65C816.cpp" />
-    <ClCompile Include="..\..\src\SnesCartridge.cpp" />
-    <ClCompile Include="..\..\src\SnesCpuMemory.cpp" />
-    <ClCompile Include="..\..\src\SnesMainboard.cpp" />
-    <ClCompile Include="..\..\src\SnesPpu.cpp" />
-    <ClCompile Include="..\..\src\SnesSynchroniser.cpp" />
     <ClCompile Include="..\..\src\apu_dx.cpp" />
     <ClCompile Include="..\..\src\apu_sdl.cpp" />
     <ClCompile Include="..\..\src\cartridge.cpp" />
@@ -277,13 +320,6 @@
     <ClInclude Include="..\..\src\ntsc\nes_ntsc.h" />
     <ClInclude Include="..\..\src\ntsc\nes_ntsc_config.h" />
     <ClInclude Include="..\..\src\ntsc\nes_ntsc_impl.h" />
-    <ClInclude Include="..\..\src\opcodes65C816.h" />
-    <ClInclude Include="..\..\src\processor65C816.h" />
-    <ClInclude Include="..\..\src\SnesCartridge.h" />
-    <ClInclude Include="..\..\src\SnesCpuMemory.h" />
-    <ClInclude Include="..\..\src\SnesMainboard.h" />
-    <ClInclude Include="..\..\src\SnesPpu.h" />
-    <ClInclude Include="..\..\src\SnesSynchroniser.h" />
     <ClInclude Include="..\..\src\apu.h" />
     <ClInclude Include="..\..\src\apu_dx.h" />
     <ClInclude Include="..\..\src\apu_sdl.h" />
@@ -310,7 +346,6 @@
     <ClInclude Include="..\..\src\stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\src\processor65C816.inl" />
     <None Include="..\..\src\processor6502.inl" />
     <None Include="..\..\tasks.txt" />
   </ItemGroup>

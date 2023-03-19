@@ -1,9 +1,11 @@
 
-#include "stdafx.h"
+
+#include "main.h"
 #include "cpumemory.h"
 #include "mainboard.h"
 #include <sstream>
 
+using namespace boost::placeholders;
 
 
 // TODO: Implement IO ports properly

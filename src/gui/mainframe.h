@@ -18,7 +18,7 @@ public:
 	void OnSize( wxSizeEvent& ev );
 
 	void SetFPS( float fps );
-	void SetName( const std::string& name );
+	void SetName( const std::wstring& name );
 };
 
 
@@ -42,7 +42,7 @@ private:
 
 	DECLARE_EVENT_TABLE();
 
-	std::string GetSaveStateFilename( int slot ) const;
+	std::wstring GetSaveStateFilename( int slot ) const;
 
 public:
 
@@ -84,7 +84,7 @@ public:
 
 	inline GLCanvas* GetCanvas() { return canvas; }
 	inline void SetFps( float fps ) { statusBar->SetFPS( fps ); }
-	inline void SetRomName( const std::string& name ) { statusBar->SetName( name ); }
+	inline void SetRomName( const std::wstring& name ) { statusBar->SetName( name ); }
 };
 
 

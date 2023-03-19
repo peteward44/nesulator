@@ -88,7 +88,7 @@ public:
 	typedef Page< 0x100, 0 > SpriteMemoryPage_t;
 
 private:
-	boost::signals::connection resetConnection;
+	boost::signals2::connection resetConnection;
 
 	NameTable_t nameTables[ 2 ];
 	NameTable_t fsNameTables[ 2 ]; // in case of four-screen mirroring, needs extra 0x800 RAM

@@ -56,7 +56,7 @@ void Processor6502::IncrementSubCycle( bool last )
 	subCycle++;
 	if ( isLastCycle == true && last )
 	{
-		PWLOG6( LOG_ERROR, "Last cycle already set!: Op '%1%:%6$02X' Addressing mode '%2%' Correct cycles '%3%' Subcycles '%4%' Add for boundary '%5%'",
+		PWLOG6( LOG_ERROR, L"Last cycle already set!: Op '%1%:%6$02X' Addressing mode '%2%' Correct cycles '%3%' Subcycles '%4%' Add for boundary '%5%'",
 			mInstruction->mName, (int)mInstruction->mAddressingMode, (int)mInstruction->mBaseCycles, (int)subCycle, 0, (int)mInstruction->mOpcode );
 		throw std::runtime_error( "" );
 	}

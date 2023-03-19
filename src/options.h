@@ -4,7 +4,7 @@
 
 #include <string>
 #include "input.h"
-#include "boost/signal.hpp"
+#include "boost/signals2.hpp"
 
 
 class JoypadKeyMap
@@ -33,7 +33,7 @@ private:
 	JoypadKeyMap keymaps[ 2 ];
 	INPUT_DEVICE inputDevices[2];
 
-	typedef boost::signal0< void > OptionsSyncEvent_t;
+	typedef boost::signals2::signal< void () > OptionsSyncEvent_t;
 	OptionsSyncEvent_t mSyncEvent;
 
 public:
@@ -59,8 +59,8 @@ public:
 	FORCE_INLINE void SetDeviceType( int port, INPUT_DEVICE device )
 	{ assert( port >= 0 && port < 2 ); inputDevices[ port ] = device; }
 
-	void LoadFromFile( const std::string& filename );
-	void SaveToFile( const std::string& filename );
+	void LoadFromFile( const std::wstring& filename );
+	void SaveToFile( const std::wstring& filename );
 
 	bool AllowMoreThanEightSprites;
 	bool SoundEnabled;
@@ -71,7 +71,7 @@ public:
 
 	bool UseNtscFiltering;
 
-	std::string SaveStatesDirectory, ScreenshotsDirectory;
+	std::wstring SaveStatesDirectory, ScreenshotsDirectory;
 };
 
 

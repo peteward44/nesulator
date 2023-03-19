@@ -19,7 +19,7 @@ const int APUBaseRate = 1789773;
 class APU_SDL : public Synchronisable, public HasState
 {
 private:
-	boost::signals::connection resetConnection;
+	boost::signals2::connection resetConnection;
 
 	Nes_Apu apu;
 	Blip_Buffer buf;

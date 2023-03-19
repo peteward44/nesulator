@@ -1,5 +1,5 @@
 
-#include "stdafx.h"
+
 #include "main.h"
 #include "processor6502.h"
 #include "mainboard.h"
@@ -10,6 +10,7 @@
 
 #include "processor6502.inl"
 
+using namespace boost::placeholders;
 
 #define PMIN( a, b )      ( (a) > (b) ? (b) : (a) )
 
@@ -167,7 +168,7 @@ int Processor6502::HandlePendingInterrupts( CPUMemory* cpuMemory )
 
 #ifdef LOG_PROCESSOR_INSTRUCTIONS
 		if ( Log::IsTypeEnabled( LOG_CPU ) )
-			Log::Write( LOG_CPU, ( boost::format( "%1% RESET triggered" ) % (int)programCounter ).str().c_str() );
+			Log::Write( LOG_CPU, ( boost::wformat( L"%1% RESET triggered" ) % (int)programCounter ).str().c_str() );
 #endif
 
 		resetPending = false;
@@ -203,7 +204,7 @@ int Processor6502::HandlePendingInterrupts( CPUMemory* cpuMemory )
 
 #ifdef LOG_PROCESSOR_INSTRUCTIONS
 		if ( Log::IsTypeEnabled( LOG_CPU ) )
-			Log::Write( LOG_CPU, ( boost::format( "%1% NMI triggered" ) % programCounter ).str().c_str() );
+			Log::Write( LOG_CPU, ( boost::wformat( L"%1% NMI triggered" ) % programCounter ).str().c_str() );
 #endif
 
 		return 7;
@@ -1144,14 +1145,14 @@ I haven't seen any docs that give light to this possibility, but that may be bec
 	const bool cyclesMatch = ( subCycle + 1 ) == verifyTicks;
 	if ( !cyclesMatch )
 	{
-		PWLOG6( LOG_ERROR, "Op '%1%:%6$02X' Addressing mode '%2%' Correct cycles '%3%' Subcycles '%4%' Add for boundary '%5%'",
+		PWLOG6( LOG_ERROR, L"Op '%1%:%6$02X' Addressing mode '%2%' Correct cycles '%3%' Subcycles '%4%' Add for boundary '%5%'",
 			instruction.mName, (int)instruction.mAddressingMode, verifyTicks, (int)subCycle, mPageBoundaryCrossed ? "1" : "0", (int)opcode );
 		throw std::runtime_error( "" );
 	}
 
 	if ( !isLastCycle )
 	{
-		PWLOG5( LOG_ERROR, "Not last cycle: Op '%1%' Addressing mode '%2%' Correct cycles '%3%' Subcycles '%4%' Add for boundary '%5%'",
+		PWLOG5( LOG_ERROR, L"Not last cycle: Op '%1%' Addressing mode '%2%' Correct cycles '%3%' Subcycles '%4%' Add for boundary '%5%'",
 			instruction.mName, (int)instruction.mAddressingMode, verifyTicks, (int)subCycle, mPageBoundaryCrossed ? "1" : "0" );
 		throw std::runtime_error( "" );
 	}
@@ -1216,7 +1217,7 @@ void Processor6502::LogProcessorMessage( UInt16_t address, Byte_t opcode, Byte_t
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-std::string PadWidthZeroes( int num, int width, bool hex, char c = '0' )
+std::wstring PadWidthZeroes( int num, int width, bool hex, wchar_t c = '0' )
 {
 	int size = 0;
 	for ( int i=1; i< 10; ++i )
@@ -1231,14 +1232,14 @@ std::string PadWidthZeroes( int num, int width, bool hex, char c = '0' )
 	int numzeros = ( size > width ) ? 0 : width - size;
 	int strSize = size + numzeros + 1;
 		
-	char* str = new char[ strSize ];
+	wchar_t* str = new wchar_t[ strSize ];
 
 	if ( hex )
-		sprintf_s( str, strSize, "%X", num );
+		swprintf_s( str, strSize, L"%X", num );
 	else
-		sprintf_s( str, strSize, "%i", num );
+		swprintf_s( str, strSize, L"%i", num );
 
-	std::string s = "";
+	std::wstring s = L"";
 
 	for ( int i=0; i<numzeros; ++i )
 	{
@@ -1253,11 +1254,11 @@ std::string PadWidthZeroes( int num, int width, bool hex, char c = '0' )
 }
 
 
-std::string Processor6502::FormatLogString( int programCounter, Byte_t opcode, Byte_t arg1, Byte_t arg2, int memval ) const
+std::wstring Processor6502::FormatLogString( int programCounter, Byte_t opcode, Byte_t arg1, Byte_t arg2, int memval ) const
 {
-	std::stringstream strstream;
-	strstream << PadWidthZeroes( programCounter, 4, true ) << "  ";
-	strstream << PadWidthZeroes( (int)opcode, 2, true ) << " ";
+	std::wstringstream strstream;
+	strstream << PadWidthZeroes( programCounter, 4, true ) << L"  ";
+	strstream << PadWidthZeroes( (int)opcode, 2, true ) << L" ";
 
 	const Instruction6502& instruction = GetInstruction6502( opcode );
 
@@ -1363,7 +1364,7 @@ void Processor6502::OutputAllInstructions()
 		OPCODE_6502 opcode = (OPCODE_6502)i;
 		const Instruction6502& instruction = GetInstruction6502( opcode );
 
-		const std::string logMsg = ( boost::format( "{ 0x%1$02X,\t\"%2%\",\t%3%,\t%4%,\t%5%,\t%6%,\t%7%\t}," ) % (int)opcode %
+		const std::wstring logMsg = ( boost::wformat( L"{ 0x%1$02X,\t\"%2%\",\t%3%,\t%4%,\t%5%,\t%6%,\t%7%\t}," ) % (int)opcode %
 			instruction.mName % (int)instruction.mSize %
 			(int)instruction.mAddressingMode % (int)instruction.mBaseCycles %
 			(int)instruction.mPageBoundaryCycles % ( instruction.mIsLegal ? "true" : "false" ) ).str();

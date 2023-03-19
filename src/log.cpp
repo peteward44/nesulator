@@ -1,5 +1,5 @@
 
-#include "stdafx.h"
+
 #include "main.h"
 #include "log.h"
 
@@ -61,7 +61,7 @@ void Log::Close()
 }
 
 
-void Log::Write( LOG_TYPE type, const std::string& message )
+void Log::Write( LOG_TYPE type, const std::wstring& message )
 {
 #ifdef ENABLE_LOGGING
 	if ( enable && IsTypeEnabled( type ) )

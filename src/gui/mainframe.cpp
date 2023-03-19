@@ -1,6 +1,7 @@
 
 
-#include "stdafx.h"
+
+#include "../main.h"
 #include "mainframe.h"
 #include "../mainboard.h"
 #include "../decompiler.h"
@@ -13,7 +14,7 @@
 
 #include <algorithm>
 
-#include "../SnesMainboard.h"
+using namespace boost::placeholders;
 
 #define ENABLE_DECOMPILE
 
@@ -121,7 +122,7 @@ public:
 	{
 		try
 		{
-			wxGetApp().LoadRomFile( filenames[0].c_str() );
+			wxGetApp().LoadRomFile( filenames[0].ToStdWstring() );
 			return true;
 		}
 		catch ( std::exception& e )
@@ -192,9 +193,9 @@ AboutDialog::AboutDialog( wxWindow* parent )
 {
 	wxFlexGridSizer* mainBox = new wxFlexGridSizer(3, 1, 10, 10);
 
-	mainBox->Add( new wxStaticText( this, -1, ( boost::format( "%1% v%2%" ) % APP_NAME % APP_VERSION_STRING ).str().c_str() ), 0, wxALIGN_CENTER|wxALL, 10);
+	mainBox->Add( new wxStaticText( this, -1, ( boost::wformat( L"%1% v%2%" ) % APP_NAME % APP_VERSION_STRING ).str().c_str() ), 0, wxALIGN_CENTER|wxALL, 10);
 
-	wxTextCtrl* textctrl = new wxTextCtrl(this, -1, ( boost::format( "Pete Ward, 2007\n\npeteward00@gmail.com" ) ).str().c_str(),
+	wxTextCtrl* textctrl = new wxTextCtrl(this, -1, ( boost::wformat( L"Pete Ward, 2007\n\npeteward00@gmail.com" ) ).str().c_str(),
 		wxDefaultPosition, wxSize(220, 70), wxTE_READONLY|wxTE_MULTILINE|wxCAPTION);
 	mainBox->Add(textctrl, 0, wxALIGN_CENTER|wxALL, 10);
 
@@ -240,13 +241,13 @@ void StatusBar::OnSize( wxSizeEvent& ev )
 
 void StatusBar::SetFPS( float fps )
 {
-	SetStatusText( ( boost::format( "FPS: %1$.2f" ) % fps ).str().c_str(), 1 );
+	SetStatusText( ( boost::wformat( L"FPS: %1$.2f" ) % fps ).str().c_str(), 1 );
 }
 
 
-void StatusBar::SetName( const std::string& name )
+void StatusBar::SetName( const std::wstring& name )
 {
-	SetStatusText( name.c_str(), 0 );
+	SetStatusText( name, 0 );
 }
 
 
@@ -404,7 +405,14 @@ MainFrame::MainFrame( int windowWidth, int windowHeight )
 	SetAcceleratorTable( accelerators );
 
 	// set up opengl
-	int attributes[] = { WX_GL_DEPTH_SIZE, 0, WX_GL_BUFFER_SIZE, 24, WX_GL_DOUBLEBUFFER, /*WX_GL_RGBA*/ };
+	//int attributes[] = { WX_GL_DEPTH_SIZE, 0, WX_GL_BUFFER_SIZE, 24, WX_GL_DOUBLEBUFFER, /*WX_GL_RGBA*/ };
+	wxGLAttributes attributes;
+	attributes.PlatformDefaults()
+		.RGBA()
+		.MinRGBA(8, 8, 8, 0)
+		.Depth(24)
+		.DoubleBuffer()
+		.EndList();
 	this->canvas = new GLCanvas( this, wxSUNKEN_BORDER, attributes );
 
 	this->SetClientSize( windowWidth, windowHeight );
@@ -459,7 +467,7 @@ void MainFrame::OnMenuLoad( wxCommandEvent& ev )
 	{
 		try
 		{
-			wxGetApp().LoadRomFile( dialog->GetPath().c_str() );
+			wxGetApp().LoadRomFile( dialog->GetPath().ToStdWstring() );
 		}
 		catch ( std::exception& e )
 		{
@@ -486,7 +494,7 @@ void MainFrame::OnMenuDecompile( wxCommandEvent& ev )
 			if ( decompileDialog->ShowModal() == wxID_OK )
 			{
 				Decompiler decompiler;
-				decompiler.Save( dialog->GetPath().c_str(), decompileDialog->GetPath().c_str() );
+				decompiler.Save( dialog->GetPath().ToStdWstring(), decompileDialog->GetPath().ToStdWstring() );
 			}
 		}
 		catch ( std::exception& e )
@@ -582,7 +590,7 @@ void MainFrame::OnSize( wxSizeEvent& ev )
 }
 
 
-std::string MainFrame::GetSaveStateFilename( int slot ) const
+std::wstring MainFrame::GetSaveStateFilename( int slot ) const
 {
 	if ( g_activeMainboard != NULL && g_activeMainboard->IsRunning() )
 	{
@@ -593,7 +601,7 @@ std::string MainFrame::GetSaveStateFilename( int slot ) const
 		if ( !path.DirExists() )
 			path.Mkdir();
 
-		return ( boost::format( "%1%%2$X_%3%.savestate" ) % path.GetPathWithSep().c_str() % g_activeMainboard->GetCartridge()->GetCRC32() % slot ).str();
+		return ( boost::wformat( L"%1%%2$X_%3%.savestate" ) % path.GetPathWithSep().c_str() % g_activeMainboard->GetCartridge()->GetCRC32() % slot ).str();
 	}
 	else
 		throw std::runtime_error( "Could not determine save state filename" );

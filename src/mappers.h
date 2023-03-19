@@ -21,7 +21,7 @@ typedef Page< 0x2000, 0 > CartRAM_t;
 class IMapper : public Synchronisable, public HasState
 {
 private:
-	boost::signals::connection resetConnection;
+	boost::signals2::connection resetConnection;
 
 	std::vector< PRGPagePtr_t > prgpages;
 	std::vector< PatternTablePtr_t > patternpages;
@@ -99,7 +99,7 @@ public:
 
 	virtual void OnReset( bool cold ) {}
 
-	virtual std::string GetName() const { throw std::runtime_error( "Undefined GetName() method on mapper" ); }
+	virtual std::wstring GetName() const { throw std::runtime_error( "Undefined GetName() method on mapper" ); }
 
 	virtual void Synchronise( int syncMTC );
 	virtual int GetNextEvent( int cpuMTC );

@@ -1,8 +1,11 @@
 
-#include "stdafx.h"
+
+#include "main.h"
 #include "apu_sdl.h"
 #include "mainboard.h"
 #include "APU/nes_apu/apu_snapshot.h"
+
+using namespace boost::placeholders;
 
 // static
 
@@ -102,7 +105,7 @@ Byte_t APU_SDL::ReadFromRegister( UInt16_t offset )
 	}
 	else
 	{
-		Log::Write( LOG_ERROR, ( boost::format( "Read from unknown APU register 0x%1$X - Emulation may be inaccurate and problematic" ) % offset ).str() );
+		Log::Write( LOG_ERROR, ( boost::wformat( L"Read from unknown APU register 0x%1$X - Emulation may be inaccurate and problematic" ) % offset ).str() );
 		return 0;
 	}
 }

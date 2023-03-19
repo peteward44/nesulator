@@ -16,6 +16,7 @@
 #include "options.h"
 #include "imainboard.h"
 #include "MainboardCallback.h"
+#include "boost/cstdint.hpp"
 
 // MainBoard - represents the NES itself.
 // All subcomponents (CPU, PPU, etc, are housed here)
@@ -34,32 +35,32 @@ private:
 	APU* apu;
 	Processor6502* processor;
 
-	Uint32 ticksLastFrame, targetTicks, ticksThisSecond, ticksIncrement;
+	boost::uint32_t ticksLastFrame, targetTicks, ticksThisSecond, ticksIncrement;
 	int frameCount;
 
 	bool running, paused, stepFrame, takeScreenshot;
 
-	std::string GetScreenshotFilename();
+	std::wstring GetScreenshotFilename();
 
 	RenderBuffer* renderBuffer;
 	MainBoardCallbackInterface* callbackInterface;
 
 
 public:
-	typedef boost::signal1< void, bool > ResetEvent_t;
+	typedef boost::signals2::signal< void (bool) > ResetEvent_t;
 	ResetEvent_t ResetEvent;
 
 
 	MainBoard( MainBoardCallbackInterface* callbackInterface );
 	~MainBoard();
 		
-	virtual void LoadCartridge( const std::string& path );
+	virtual void LoadCartridge( const std::wstring& path );
 	virtual ICartridge* GetCartridge() { return cartridge.get(); }
 
 	void CreateComponents();
 
-	virtual std::string GetName() const
-	{ return cartridge.get() != NULL ? cartridge->GetName() : ""; }
+	virtual std::wstring GetName() const
+	{ return cartridge.get() != NULL ? cartridge->GetName() : L""; }
 
 	virtual IInputBus* GetInputBus() { return &inputDeviceBus; }
 
@@ -109,8 +110,8 @@ public:
 
 	virtual void Shutdown();
 
-	virtual void SaveState( const std::string& filename );
-	virtual void LoadState( const std::string& filename );
+	virtual void SaveState( const std::wstring& filename );
+	virtual void LoadState( const std::wstring& filename );
 
 	virtual void SetTerritoryMode( TERRITORY_MODE mode );
 	virtual TERRITORY_MODE GetTerritoryMode() const { return modeConstants->Mode(); }
