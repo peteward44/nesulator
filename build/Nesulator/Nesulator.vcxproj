@@ -137,19 +137,19 @@
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</GenerateManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\personal\boost_1_81_0;C:\wxWidgets-3.2.2.1\include\msvc;C:\wxWidgets-3.2.2.1\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>C:\local\boost_1_81_0\lib64-msvc-14.3;C:\wxWidgets-3.2.2.1\lib;$(LibraryPath)</LibraryPath>
-    <ExternalIncludePath>C:\personal\boost_1_81_0;C:\wxWidgets-3.2.2.1\include\msvc;C:\wxWidgets-3.2.2.1\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</ExternalIncludePath>
+    <IncludePath>C:\personal\SDL_SOUND_BUILD\include\SDL2;C:\personal\SDL2_BUILD\include\SDL2;C:\personal\boost_1_81_0;C:\wxWidgets-3.2.2.1\include\msvc;C:\wxWidgets-3.2.2.1\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>C:\personal\SDL2_BUILD\lib;C:\personal\SDL_SOUND_BUILD\lib;C:\local\boost_1_81_0\lib64-msvc-14.3;C:\wxWidgets-3.2.2.1\lib\vc_x64_dll;$(LibraryPath)</LibraryPath>
+    <ExternalIncludePath>C:\personal\SDL_SOUND_BUILD\include\SDL2;C:\personal\SDL2_BUILD\include\SDL2;C:\personal\boost_1_81_0;C:\wxWidgets-3.2.2.1\include\msvc;C:\wxWidgets-3.2.2.1\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\personal\boost_1_81_0;C:\wxWidgets-3.2.2.1\include\msvc;C:\wxWidgets-3.2.2.1\include;C:\personal\SDL2-devel-2.26.4-VC\SDL2-2.26.4\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>C:\local\boost_1_81_0\lib64-msvc-14.3;C:\wxWidgets-3.2.2.1\lib;$(LibraryPath)</LibraryPath>
-    <ExternalIncludePath>C:\personal\boost_1_81_0;C:\wxWidgets-3.2.2.1\include\msvc;C:\wxWidgets-3.2.2.1\include;C:\personal\SDL2-devel-2.26.4-VC\SDL2-2.26.4\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</ExternalIncludePath>
+    <IncludePath>C:\personal\SDL_SOUND_BUILD\include\SDL2;C:\personal\SDL2_BUILD\include\SDL2;C:\personal\boost_1_81_0;C:\wxWidgets-3.2.2.1\include\msvc;C:\wxWidgets-3.2.2.1\include;C:\personal\SDL2-devel-2.26.4-VC\SDL2-2.26.4\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>C:\personal\SDL2_BUILD\lib;C:\personal\SDL_SOUND_BUILD\lib;C:\local\boost_1_81_0\lib64-msvc-14.3;C:\wxWidgets-3.2.2.1\lib\vc_x64_dll;$(LibraryPath)</LibraryPath>
+    <ExternalIncludePath>C:\personal\SDL_SOUND_BUILD\include\SDL2;C:\personal\SDL2_BUILD\include\SDL2;C:\personal\boost_1_81_0;C:\wxWidgets-3.2.2.1\include\msvc;C:\wxWidgets-3.2.2.1\include;C:\personal\SDL2-devel-2.26.4-VC\SDL2-2.26.4\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release 64|x64'">
-    <IncludePath>C:\personal\boost_1_81_0;C:\wxWidgets-3.2.2.1\include\msvc;C:\wxWidgets-3.2.2.1\include;C:\personal\SDL2-devel-2.26.4-VC\SDL2-2.26.4\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>C:\local\boost_1_81_0\lib64-msvc-14.3;C:\wxWidgets-3.2.2.1\lib;$(LibraryPath)</LibraryPath>
-    <ExternalIncludePath>C:\personal\boost_1_81_0;C:\wxWidgets-3.2.2.1\include\msvc;C:\wxWidgets-3.2.2.1\include;C:\personal\SDL2-devel-2.26.4-VC\SDL2-2.26.4\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</ExternalIncludePath>
+    <IncludePath>C:\personal\SDL_SOUND_BUILD\include\SDL2;C:\personal\SDL2_BUILD\include\SDL2;C:\personal\boost_1_81_0;C:\wxWidgets-3.2.2.1\include\msvc;C:\wxWidgets-3.2.2.1\include;C:\personal\SDL2-devel-2.26.4-VC\SDL2-2.26.4\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>C:\personal\SDL2_BUILD\lib;C:\personal\SDL_SOUND_BUILD\lib;C:\local\boost_1_81_0\lib64-msvc-14.3;C:\wxWidgets-3.2.2.1\lib\vc_x64_dll;$(LibraryPath)</LibraryPath>
+    <ExternalIncludePath>C:\personal\SDL_SOUND_BUILD\include\SDL2;C:\personal\SDL2_BUILD\include\SDL2;C:\personal\boost_1_81_0;C:\wxWidgets-3.2.2.1\include\msvc;C:\wxWidgets-3.2.2.1\include;C:\personal\SDL2-devel-2.26.4-VC\SDL2-2.26.4\include;$(VC_IncludePath);$(WindowsSDK_IncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

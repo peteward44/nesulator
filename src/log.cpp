@@ -5,6 +5,7 @@
 
 
 std::ofstream Log::mFile;
+wxLog* Log::mTarget = NULL;
 
 
 void Log::ToggleEnabled( int type )
@@ -44,9 +45,8 @@ void Log::Open( wxWindow* parent )
 {
 #ifdef ENABLE_LOGGING
 // configure wx logging
-::wxLog::SetActiveTarget( new wxLogWindow( parent, "Nesulator Debug Output" ) );
-//::wxLog::SetLogLevel( 
-::wxLog::EnableLogging();
+	::wxLog::SetActiveTarget( new wxLogWindow( parent, "Nesulator Debug Output", true, false ) );
+	::wxLog::EnableLogging();
 
 	mFile.open( "log.txt" );
 #endif
@@ -57,6 +57,9 @@ void Log::Close()
 {
 #ifdef ENABLE_LOGGING
 	mFile.close();
+	if (mTarget != NULL) {
+		delete mTarget;
+	}
 #endif
 }
 
@@ -66,7 +69,9 @@ void Log::Write( LOG_TYPE type, const std::wstring& message )
 #ifdef ENABLE_LOGGING
 	if ( enable && IsTypeEnabled( type ) )
 	{
-//		::wxLogMessage( message.c_str() );
+		if (type != LOG_CPU) {
+			wxLogMessage(message.c_str());
+		}
 //		::OutputDebugStringA( ( message + "\r\n" ).c_str() );
 		mFile << message << std::endl;
 

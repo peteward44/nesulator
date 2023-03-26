@@ -23,6 +23,7 @@ private:
 	static bool enable;
 	static int typesEnabled;
 	static std::ofstream mFile;
+	static wxLog* mTarget;
 
 public:
 

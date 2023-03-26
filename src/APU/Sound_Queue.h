@@ -5,9 +5,13 @@
 
 #ifndef SOUND_QUEUE_H
 #define SOUND_QUEUE_H
+#define BUILD_WITH_SDL_SOUND
 
 #include "boost/cstdint.hpp"
-//#include "SDL.h"
+#ifdef BUILD_WITH_SDL_SOUND
+#define SDL_MAIN_HANDLED
+#include "SDL.h"
+#endif
 
 // Simple SDL sound wrapper that has a synchronous interface
 class Sound_Queue {
@@ -30,7 +34,9 @@ private:
 	enum { buf_size = 2048 };
 	enum { buf_count = 3 };
 	sample_t* volatile bufs;
-	//SDL_sem* volatile free_sem;
+#ifdef BUILD_WITH_SDL_SOUND
+	SDL_sem* volatile free_sem;
+#endif
 	int volatile read_buf;
 	int write_buf;
 	int write_pos;

@@ -70,6 +70,7 @@ std::wstring NesulatorApp::GetConfigFilename()
 NesulatorApp::NesulatorApp()
 : mainFrame( NULL ), mQuitNow( false )
 {
+	SDL_SetMainReady();
 	NesulatorApp::AppQuit.connect(boost::bind(&NesulatorApp::OnAppExit, this));
 }
 
@@ -164,7 +165,6 @@ int NesulatorApp::OnRun()
 			if ( g_activeMainboard != NULL )
 			{
 				g_activeMainboard->DoLoop();
-				break;
 			}
 			else
 			{
