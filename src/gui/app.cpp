@@ -298,8 +298,10 @@ void NesulatorApp::LoadRomFile( const std::wstring& filename )
 		else
 		{
 			// load cartridge immediately if no active mainboard
-			g_activeMainboard = mainboard;
-			g_activeMainboard->LoadCartridge( filename );
+			mainboard->LoadCartridge( filename );
+			if (mainboard->GetCartridge()) {
+				g_activeMainboard = mainboard;
+			}
 		}
 	}
 	catch ( std::exception& )
