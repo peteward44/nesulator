@@ -232,7 +232,7 @@ void PictureProcessingUnit::WriteToRegister( UInt16_t offset, Byte_t data )
 			g_nesMainboard->GetSynchroniser()->Synchronise();
 			const bool renderingEnabledChanged = ( ( (*control2) & 0x18 ) > 0 ) != ( ( data & 0x18 ) > 0 );
 			*control2 = data;
-			Log::Write( LOG_MISC, ( boost::wformat( L"control2 changed to %1%" ) % int(data) ).str() );
+			Log::Write( LOG_PPU, ( boost::wformat( L"control2 changed to %1%" ) % int(data) ).str() );
 			if ( renderingEnabledChanged )
 				g_nesMainboard->GetMemoryMapper()->RenderingEnabledChanged( ( (*control2) & 0x18 ) > 0 );
 		}
